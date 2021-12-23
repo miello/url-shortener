@@ -1,0 +1,27 @@
+<script lang="ts">
+	import { Router, Route } from 'svelte-navigator'
+	import Main from './pages/Main/index.svelte'
+	import Redirect from './pages/Redirect.svelte'
+</script>
+
+<main class="h-screen bg">
+	<Router>
+		<Route path="/">
+			<Main />
+		</Route>
+		<Route path="/:id" let:params>
+			<Redirect id={params.id}/>
+		</Route>
+	</Router>
+</main>
+
+<style lang="postcss" global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
+	.bg {
+	background: conic-gradient(from 180deg at 50% 50%, rgba(0, 255, 71, 0.4) -65.63deg, rgba(255, 77, 0, 0.4) 123.75deg, rgba(0, 255, 71, 0.4) 294.38deg, rgba(255, 77, 0, 0.4) 483.75deg), linear-gradient(0deg, #FFFFFF, #FFFFFF);
+
+	}
+</style>
