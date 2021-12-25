@@ -4,7 +4,8 @@
 	import Redirect from './pages/Redirect.svelte'
 </script>
 
-<main class="h-screen bg">
+<main class="min-h-screen bg flex">
+	<div class="flex w-full">
 	<Router>
 		<Route path="/">
 			<Main />
@@ -13,6 +14,7 @@
 			<Redirect id={params.id}/>
 		</Route>
 	</Router>
+</div>
 </main>
 
 <style lang="postcss" global>
@@ -21,7 +23,6 @@
 	@tailwind utilities;
 
 	.bg {
-	background: conic-gradient(from 180deg at 50% 50%, rgba(0, 255, 71, 0.4) -65.63deg, rgba(255, 77, 0, 0.4) 123.75deg, rgba(0, 255, 71, 0.4) 294.38deg, rgba(255, 77, 0, 0.4) 483.75deg), linear-gradient(0deg, #FFFFFF, #FFFFFF);
-
+		background: conic-gradient(from 180deg at 50% 50%, rgba(0, 255, 71, 0.4) -65.63deg, rgba(255, 77, 0, 0.4) 123.75deg, rgba(0, 255, 71, 0.4) 294.38deg, rgba(255, 77, 0, 0.4) 483.75deg), linear-gradient(0deg, #FFFFFF, #FFFFFF);
 	}
 </style>

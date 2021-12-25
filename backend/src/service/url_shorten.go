@@ -1,7 +1,9 @@
 package service
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/miello/url-shortener/backend/src/dto"
 	"github.com/miello/url-shortener/backend/src/utils"
@@ -20,10 +22,11 @@ func CreateNewURL(ctx *gin.Context) {
 		return
 	}
 
+	BASE_URL := os.Getenv("SHORTEN_BASE_URL")
 	id := utils.GenerateNewId(5, body.Url)
 
 	ctx.JSON(http.StatusCreated, gin.H{
-		"id": id,
+		"url": fmt.Sprintf("%v/api/short/%v", BASE_URL, id),
 	})
 }
 

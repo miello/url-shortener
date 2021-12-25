@@ -5,6 +5,7 @@ import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
 import sveltePreprocess from "svelte-preprocess";
 import replace from "@rollup/plugin-replace";
+import includeEnv from "svelte-environment-variables";
 import typescript from "@rollup/plugin-typescript";
 import css from "rollup-plugin-css-only";
 import json from "@rollup/plugin-json";
@@ -49,8 +50,7 @@ export default {
   plugins: [
     json(),
     replace({
-      BACKEND_API: JSON.stringify(process.env.BACKEND_API),
-      preventAssignment: true,
+      ...includeEnv(),
     }),
     svelte({
       preprocess: sveltePreprocess({
@@ -79,6 +79,7 @@ export default {
     }),
     commonjs(),
     typescript({
+      rootDir: "./src",
       sourceMap: !production,
       inlineSources: !production,
     }),

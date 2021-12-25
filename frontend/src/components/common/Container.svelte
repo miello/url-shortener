@@ -1,7 +1,7 @@
 <script lang="ts">
-    export let _class: string = ""
+    export let className: string = ""
 </script>
 
-<section class={`p-4 backdrop-blur-md drop-shadow-md bg-white rounded-xl bg-opacity-50 ${_class}`}>
+<section class={`p-4 backdrop-blur-md drop-shadow-md bg-white rounded-xl bg-opacity-50 ${className}`} on:click>
     <slot />
 </section>
