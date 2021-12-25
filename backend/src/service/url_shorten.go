@@ -6,14 +6,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/miello/url-shortener/backend/src/dto"
+	"github.com/miello/url-shortener/backend/src/types"
 	"github.com/miello/url-shortener/backend/src/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 func CreateNewURL(ctx *gin.Context) {
-	var body *dto.CreateURLDTO
+	var body *types.CreateURLRequest
 	err := ctx.BindJSON(&body)
 
 	if err != nil {

@@ -9,15 +9,18 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/miello/url-shortener/backend/src/service"
+	"github.com/miello/url-shortener/backend/src/utils"
 )
 
 func main() {
+	err := godotenv.Load()
 	rand.Seed(time.Now().UnixNano())
 
-	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
+	utils.ConnectDB()
 
 	serve := gin.Default()
 	config := cors.DefaultConfig()

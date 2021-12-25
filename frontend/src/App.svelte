@@ -3,7 +3,6 @@
 	import { onMount } from "svelte";
 	import { Router, Route } from 'svelte-navigator'
 	import Main from './pages/Main/index.svelte'
-	import Redirect from './pages/Redirect.svelte'
 
 	onMount(() => {
     if(!localStorage.getItem('uuid')) {
@@ -18,9 +17,6 @@
 	<Router>
 		<Route path="/">
 			<Main />
-		</Route>
-		<Route path="/:id" let:params>
-			<Redirect id={params.id}/>
 		</Route>
 	</Router>
 </div>
