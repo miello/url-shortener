@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	rand.Seed(time.Hour.Nanoseconds())
+	rand.Seed(time.Now().UnixNano())
 
 	err := godotenv.Load()
 	if err != nil {
@@ -30,8 +30,9 @@ func main() {
 
 	{
 		url_api.POST("", service.CreateNewURL)
-		url_api.GET("/:id", service.RedirectToUrl)
 	}
+
+	serve.GET("/s/:id", service.RedirectToUrl)
 
 	serve.Run()
 }

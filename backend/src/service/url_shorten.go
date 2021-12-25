@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/miello/url-shortener/backend/src/dto"
 	"github.com/miello/url-shortener/backend/src/utils"
@@ -22,11 +23,18 @@ func CreateNewURL(ctx *gin.Context) {
 		return
 	}
 
+	containHttp := strings.Contains(body.Url, "http://")
+	containHttps := strings.Contains(body.Url, "https://")
+
+	if !containHttp && !containHttps {
+		body.Url = "http://" + body.Url
+	}
+
 	BASE_URL := os.Getenv("SHORTEN_BASE_URL")
 	id := utils.GenerateNewId(5, body.Url)
 
 	ctx.JSON(http.StatusCreated, gin.H{
-		"url": fmt.Sprintf("%v/api/short/%v", BASE_URL, id),
+		"url": fmt.Sprintf("%v/s/%v", BASE_URL, id),
 	})
 }
 
@@ -39,5 +47,5 @@ func RedirectToUrl(ctx *gin.Context) {
 		return
 	}
 
-	ctx.Redirect(301, url)
+	ctx.Redirect(http.StatusMovedPermanently, url)
 }

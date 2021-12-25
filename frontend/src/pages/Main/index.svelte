@@ -2,6 +2,7 @@
   import Container from "../../components/common/Container.svelte";
   import { apiClient } from '../../utils/apiClient';
   import Modal from '../../components/common/ResultModal.svelte'
+import Alert from "../../components/common/Alert.svelte";
 
   type EventInput = Event & {
     currentTarget: EventTarget & HTMLFormElement;
@@ -10,6 +11,7 @@
   let url: string = "";
   let openModal: boolean = false
   let result: string = ""
+
   const handleSubmit = async (e: EventInput) => {
     e.preventDefault()
     try {
@@ -42,6 +44,7 @@
   {#if openModal}
     <Modal on:close={() => {openModal = false}} resultUrl={result} />
   {/if}
+  <Alert />
   <!-- <Container _class="max-w-[500px] w-full">
     <h5 class="text-xl text-center mb-2">History</h5>
     <div class="grid grid-cols-2">
