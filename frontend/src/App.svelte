@@ -1,7 +1,16 @@
 <script lang="ts">
+	import { v4 as uuidV4} from 'uuid'
+	import { onMount } from "svelte";
 	import { Router, Route } from 'svelte-navigator'
 	import Main from './pages/Main/index.svelte'
 	import Redirect from './pages/Redirect.svelte'
+
+	onMount(() => {
+    if(!localStorage.getItem('uuid')) {
+      localStorage.setItem('uuid', uuidV4())
+    }
+  })
+
 </script>
 
 <main class="min-h-screen bg flex">
