@@ -2,7 +2,7 @@ package dto
 
 import "gorm.io/gorm"
 
-type UserDTO struct {
+type User struct {
 	gorm.Model
 	Handle   string
 	User     string

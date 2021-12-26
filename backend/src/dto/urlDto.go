@@ -1,11 +1,16 @@
 package dto
 
-import "gorm.io/gorm"
+import (
+	"time"
 
-type URLShortenerDTO struct {
+	"gorm.io/gorm"
+)
+
+type URLShortener struct {
 	gorm.Model
 	Original string
 	Shorten  string
 	UserID   uint
-	User     UserDTO
+	Expires  time.Time
+	User     User
 }

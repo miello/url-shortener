@@ -21,6 +21,7 @@ func main() {
 	}
 
 	utils.ConnectDB()
+	utils.MigrationDB()
 
 	serve := gin.Default()
 	config := cors.DefaultConfig()
@@ -33,6 +34,8 @@ func main() {
 
 	{
 		url_api.POST("", service.CreateNewURL)
+		url_api.POST("/login", service.Login)
+		url_api.POST("/register", service.Register)
 	}
 
 	serve.GET("/s/:id", service.RedirectToUrl)
