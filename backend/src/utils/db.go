@@ -2,8 +2,8 @@ package utils
 
 import (
 	"fmt"
-	"log"
 	"os"
+	"time"
 
 	"github.com/miello/url-shortener/backend/src/dto"
 	"gorm.io/driver/postgres"
@@ -20,13 +20,18 @@ func ConnectDB() {
 
 	DB_CONFIG := fmt.Sprintf("user=%v password=%v dbname=%v port=5432 sslmode=disable TimeZone=Asia/Bangkok", DB_USER, DB_PASS, DB_NAME)
 
-	db, err = gorm.Open(postgres.New(postgres.Config{
-		DSN:                  DB_CONFIG,
-		PreferSimpleProtocol: true, // disables implicit prepared statement usage
-	}), &gorm.Config{})
+	for {
+		db, err = gorm.Open(postgres.New(postgres.Config{
+			DSN:                  DB_CONFIG,
+			PreferSimpleProtocol: true, // disables implicit prepared statement usage
+		}), &gorm.Config{})
 
-	if err != nil {
-		log.Fatal("Failed to connect to database")
+		if err == nil {
+			break
+		}
+
+		fmt.Println("Failed to connect to database retry in 5 seconds")
+		time.Sleep(time.Second * 5)
 	}
 }
 

@@ -3,6 +3,7 @@ package service
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/miello/url-shortener/backend/src/dto"
@@ -55,8 +56,11 @@ func Login(ctx *gin.Context) {
 	isCorrect := comparePassword(user_match.Password, password)
 
 	if isCorrect {
+		token := GenerateToken(username, true)
+		ctx.SetCookie("token", token, int(time.Hour.Minutes()), "/", "localhost", false, true)
 		ctx.JSON(http.StatusAccepted, gin.H{
 			"status": "success",
+			"token":  token,
 		})
 	} else {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -100,4 +104,9 @@ func Register(ctx *gin.Context) {
 	})
 
 	ctx.JSON(http.StatusCreated, "Register Successful")
+}
+
+func Logout(ctx *gin.Context) {
+	ctx.SetCookie("token", "", 0, "/", "localhost", false, true)
+	ctx.JSON(http.StatusOK, "Logout Successfully")
 }

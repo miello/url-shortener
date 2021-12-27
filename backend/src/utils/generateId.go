@@ -11,10 +11,10 @@ var found = make(map[string]string)
 
 func GenerateNewId(length int, url string) string {
 	id := ""
-	nBig, _ := rand.Int(rand.Reader, big.NewInt(26))
 	for {
 		for i := 0; i < length; i++ {
-			id += string(_RANDOM[nBig.Int64()])
+			result, _ := rand.Int(rand.Reader, big.NewInt(62))
+			id += string(_RANDOM[result.Int64()])
 		}
 		if _, ok := found[id]; !ok {
 			break

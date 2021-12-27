@@ -3,11 +3,13 @@ package main
 import (
 	"log"
 	"math/rand"
+	"net/http"
 	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/miello/url-shortener/backend/src/middleware"
 	"github.com/miello/url-shortener/backend/src/service"
 	"github.com/miello/url-shortener/backend/src/utils"
 )
@@ -30,12 +32,23 @@ func main() {
 	serve.Use(cors.Default())
 
 	url_api := serve.Group("/api/short")
-	url_api.Use(cors.Default())
+	auth_api := serve.Group("/api/auth")
+
+	url_api.Use(middleware.AuthorizeJWT())
 
 	{
 		url_api.POST("", service.CreateNewURL)
-		url_api.POST("/login", service.Login)
-		url_api.POST("/register", service.Register)
+		url_api.Use(middleware.AuthorizeJWT()).GET("/history", func(ctx *gin.Context) {
+			ctx.JSON(http.StatusAccepted, gin.H{
+				"status": "success",
+			})
+		})
+	}
+
+	{
+		auth_api.POST("/login", service.Login)
+		auth_api.POST("/register", service.Register)
+		auth_api.POST("/logout", service.Logout)
 	}
 
 	serve.GET("/s/:id", service.RedirectToUrl)
