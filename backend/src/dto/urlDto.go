@@ -10,7 +10,6 @@ type URLShortener struct {
 	gorm.Model
 	Original string
 	Shorten  string
-	UserID   uint
+	UrlID    string
 	Expires  time.Time
-	User     User
 }

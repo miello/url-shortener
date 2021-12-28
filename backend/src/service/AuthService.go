@@ -59,7 +59,6 @@ func Login(ctx *gin.Context) {
 		ctx.SetCookie("access_token", token, 1*60*60*1000, "/", "localhost", false, true)
 		ctx.JSON(http.StatusAccepted, gin.H{
 			"status": "success",
-			"token":  token,
 		})
 	} else {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -108,4 +107,23 @@ func Register(ctx *gin.Context) {
 func Logout(ctx *gin.Context) {
 	ctx.SetCookie("access_token", "", -1, "/", "localhost", false, true)
 	ctx.JSON(http.StatusOK, "Logout Successfully")
+}
+
+func GetUser(ctx *gin.Context) {
+	username, _ := ctx.Get("user")
+	db := utils.GetDB()
+	var user dto.User
+
+	err := db.Where(&dto.User{User: username.(string)}).First(&user)
+
+	if err.Error != nil {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "Not found user or not exists",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusAccepted, gin.H{
+		"handle": user.User,
+	})
 }
