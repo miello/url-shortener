@@ -2,7 +2,7 @@
 	import { v4 as uuidV4} from 'uuid'
 	import { onMount } from "svelte";
 	import { Router, Route } from 'svelte-navigator'
-	import Main from '@pages/Main.svelte'
+	import routes from './utils/routes';
 
 	onMount(() => {
     if(!localStorage.getItem('uuid')) {
@@ -15,9 +15,11 @@
 <main class="min-h-screen bg flex">
 	<div class="flex w-full">
 		<Router>
-			<Route path="/">
-				<Main />
-			</Route>
+			{#each routes as { path, Components}}
+				<Route path={path}>
+					<Components />
+				</Route>
+				{/each}
 		</Router>
 	</div>
 </main>
