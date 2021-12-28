@@ -42,7 +42,7 @@ onDestroy(() => {
 <div transition:fly on:click={onClose} class="absolute z-50  backdrop-blur-md bg-black bg-opacity-50 w-full h-full">
   <div transition:scale class="flex justify-center items-center w-full h-full">
     <Container on:click={(e) => { e.stopImmediatePropagation() }} className="m-10 max-w-[600px] relative w-full h-fit bg-opacity-100 flex flex-col items-center gap-6 py-8">
-      <div on:click={onClose} class="absolute right-2 top-2 cursor-pointer" onClick={onClose}>
+      <div on:click={onClose} class="absolute right-2 top-2 cursor-pointer">
         <CloseIcon />
       </div>
       <h3 class="font-display text-2xl font-bold">Here you go</h3>

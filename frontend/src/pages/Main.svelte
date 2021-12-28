@@ -3,10 +3,9 @@
   import { apiClient } from '../utils/apiClient';
   import Modal from '../components/common/ResultModal.svelte'
   import Alert from "../components/common/Alert.svelte";
-  
-  type EventInput = Event & {
-    currentTarget: EventTarget & HTMLFormElement;
-  };
+  import Input from "../components/common/Input.svelte";
+  import Button from "../components/common/Button.svelte";
+  import type { EventInput } from "../types/Event";
 
   let url: string = "";
   let openModal: boolean = false
@@ -30,14 +29,14 @@
     <Container className="mb-4 max-w-[500px] w-full">
       <div class="flex mb-4 items-center">
         <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md">URL : </span>
-        <input bind:value={url} label="Your url" class="px-2.5 py-1 flex-1 rounded-xl" required />
+        <Input bind:value={url} required={true} label="Your URL" />
       </div>
       <div class="flex justify-center">
-        <button
+        <Button
           type="submit"
-          class="bg-yellow-400 color-black px-3 py-2 rounded-xl drop-shadow-md font-display font-bold">
+          className="bg-yellow-400 color-black px-3 py-2 rounded-xl drop-shadow-md font-display font-bold">
           Shorten
-        </button>
+        </Button>
       </div>
     </Container>
   </form>

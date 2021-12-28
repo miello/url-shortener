@@ -19,7 +19,7 @@
 				<Route path={path}>
 					<Components />
 				</Route>
-				{/each}
+			{/each}
 		</Router>
 	</div>
 </main>
