@@ -32,24 +32,29 @@ func main() {
 	config.AllowOrigins = []string{"http://localhost:5000"}
 
 	serve.Use(cors.Default())
+	serve.Use(gin.Logger())
 
 	url_api := serve.Group("/api/short")
 	auth_api := serve.Group("/api/auth")
 
-	url_api.POST("", service.CreateNewURL)
-	url_api.GET("/history", middleware.AuthorizeJWT(), func(ctx *gin.Context) {
-		data, found := ctx.Get("user")
-		if found {
-			ctx.JSON(http.StatusAccepted, gin.H{
-				"status": data,
-			})
-		}
-	})
+	{
+		url_api.POST("", middleware.AuthorizeJWT(false), service.CreateNewURL)
+		url_api.GET("/history", middleware.AuthorizeJWT(true), func(ctx *gin.Context) {
+			data, found := ctx.Get("user")
+			if found {
+				ctx.JSON(http.StatusAccepted, gin.H{
+					"status": data,
+				})
+			}
+		})
+	}
 
-	auth_api.POST("/login", service.Login)
-	auth_api.POST("/register", service.Register)
-	auth_api.PATCH("/logout", service.Logout)
-	auth_api.GET("/user", middleware.AuthorizeJWT(), service.GetUser)
+	{
+		auth_api.POST("/login", service.Login)
+		auth_api.POST("/register", service.Register)
+		auth_api.PATCH("/logout", service.Logout)
+		auth_api.GET("/user", middleware.AuthorizeJWT(true), service.GetUser)
+	}
 
 	serve.GET("/s/:id", service.RedirectToUrl)
 

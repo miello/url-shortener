@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Container from "../../components/common/Container.svelte";
-  import { apiClient } from '../../utils/apiClient';
-  import Modal from '../../components/common/ResultModal.svelte'
-  import Alert from "../../components/common/Alert.svelte";
+  import Container from "@components/common/Container.svelte";
+  import { apiClient } from '@utils/apiClient';
+  import Modal from '@components/common/ResultModal.svelte'
+  import Alert from "@components/common/Alert.svelte";
   
   type EventInput = Event & {
     currentTarget: EventTarget & HTMLFormElement;

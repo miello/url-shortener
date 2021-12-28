@@ -8,17 +8,26 @@ import (
 	"github.com/miello/url-shortener/backend/src/service"
 )
 
-func AuthorizeJWT() gin.HandlerFunc {
+func AuthorizeJWT(strict bool) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authToken, err := ctx.Cookie("access_token")
-		if err != nil {
+		if err != nil && strict {
 			ctx.AbortWithStatus(http.StatusUnauthorized)
+			return
+		} else if err != nil && !strict {
+			ctx.Next()
+			return
 		}
 
 		token, validateErr := service.ValidateToken(authToken)
+
 		if validateErr != nil || !token.Valid {
 			fmt.Println(validateErr)
 			ctx.AbortWithStatus(http.StatusUnauthorized)
+			return
+		} else if !strict {
+			ctx.Next()
+			return
 		}
 
 		claims, ok := service.ParseToken(token)
@@ -26,8 +35,10 @@ func AuthorizeJWT() gin.HandlerFunc {
 		if ok {
 			ctx.Set("user", claims.Name)
 			ctx.Next()
-		} else {
+		} else if strict {
 			ctx.AbortWithStatus(http.StatusUnauthorized)
+		} else if !strict {
+			ctx.Next()
 		}
 
 	}
