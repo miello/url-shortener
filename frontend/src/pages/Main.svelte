@@ -6,6 +6,8 @@
   import Input from "../components/common/Input.svelte";
   import Button from "../components/common/Button.svelte";
   import type { EventInput } from "../types/Event";
+  import { UpdateAlert } from "../stores/AlertStores";
+  import type { AxiosError } from "axios";
 
   let url: string = "";
   let openModal: boolean = false
@@ -18,9 +20,13 @@
       result = res.data.url
       openModal = true
     } catch(err) {
-      console.log(err)
+      UpdateAlert({
+        status: "error",
+        message: (err as AxiosError).message
+      })
     }
   };
+  
 </script>
 
 <div class="w-full h-full flex flex-col justify-center items-center mx-5">
@@ -44,11 +50,4 @@
     <Modal on:close={() => {openModal = false}} resultUrl={result} />
   {/if}
   <Alert />
-  <!-- <Container _class="max-w-[500px] w-full">
-    <h5 class="text-xl text-center mb-2">History</h5>
-    <div class="grid grid-cols-2">
-      <div>Hello</div>
-      <div>Hello</div>
-    </div>
-  </Container> -->
 </div>
