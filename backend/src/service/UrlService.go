@@ -41,9 +41,13 @@ func CreateNewURL(ctx *gin.Context) {
 func RedirectToUrl(ctx *gin.Context) {
 	id := ctx.Param("id")
 	url, ok := utils.GetUrlFromId(id)
+	FRONT_END_URL := os.Getenv("FRONTEND_URL")
+	println(FRONT_END_URL)
 
 	if !ok {
-		ctx.AbortWithStatus(http.StatusNotFound)
+		ctx.HTML(http.StatusNotFound, "index.html", gin.H{
+			"link": FRONT_END_URL,
+		})
 		return
 	}
 

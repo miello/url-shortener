@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+    <title>Hello World</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+		    background: conic-gradient(from 180deg at 50% 50%, rgba(0, 255, 71, 0.4) -65.63deg, rgba(255, 77, 0, 0.4) 123.75deg, rgba(0, 255, 71, 0.4) 294.38deg, rgba(255, 77, 0, 0.4) 483.75deg), linear-gradient(0deg, #FFFFFF, #FFFFFF);
+        }
+        #container {
+            filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 100%;
+            padding: 1rem;
+            border-radius: 1rem;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        #back {
+            width: fit-content;
+            margin: auto;
+            background-color: #B04747;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem 0.5rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+        #description {
+            margin-bottom: 1.5rem;
+            max-width: 300px;
+        }
+        div, button, p, h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        #header {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 id="header">404 Not Found</h1>
+        <div id="description">
+            Oops. You might accidentally access to expired or non-exists url
+        </div>
+        <a href={{ .link }} id="back">Back to main page</a>
+    </div>
+</body>

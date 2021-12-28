@@ -15,8 +15,19 @@ var db *gorm.DB
 func ConnectDB() {
 	var err error
 	DB_USER := os.Getenv("DATABASE_USER")
+	if DB_USER == "" {
+		DB_USER = "postgres"
+	}
+
 	DB_PASS := os.Getenv("DATABASE_PASSWORD")
+	if DB_PASS == "" {
+		DB_PASS = "example"
+	}
+
 	DB_NAME := os.Getenv("DATABASE_NAME")
+	if DB_NAME == "" {
+		DB_NAME = "urlshortner"
+	}
 
 	DB_CONFIG := fmt.Sprintf("user=%v password=%v dbname=%v port=5432 sslmode=disable TimeZone=Asia/Bangkok", DB_USER, DB_PASS, DB_NAME)
 

@@ -10,15 +10,25 @@ import (
 
 func AuthorizeJWT() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		authToken, err := ctx.Cookie("token")
+		authToken, err := ctx.Cookie("access_token")
 		if err != nil {
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 		}
 
-		_, validateErr := service.ValidateToken(authToken)
-		if validateErr != nil {
+		token, validateErr := service.ValidateToken(authToken)
+		if validateErr != nil || !token.Valid {
 			fmt.Println(validateErr)
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 		}
+
+		claims, ok := service.ParseToken(token)
+
+		if ok {
+			ctx.Set("user", claims.Name)
+			ctx.Next()
+		} else {
+			ctx.AbortWithStatus(http.StatusUnauthorized)
+		}
+
 	}
 }

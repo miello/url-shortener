@@ -26,6 +26,8 @@ func main() {
 	utils.MigrationDB()
 
 	serve := gin.Default()
+	serve.LoadHTMLGlob("templates/*")
+
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"http://localhost:5000"}
 
@@ -34,21 +36,22 @@ func main() {
 	url_api := serve.Group("/api/short")
 	auth_api := serve.Group("/api/auth")
 
-	url_api.Use(middleware.AuthorizeJWT())
-
 	{
 		url_api.POST("", service.CreateNewURL)
-		url_api.Use(middleware.AuthorizeJWT()).GET("/history", func(ctx *gin.Context) {
-			ctx.JSON(http.StatusAccepted, gin.H{
-				"status": "success",
-			})
+		url_api.GET("/history", middleware.AuthorizeJWT(), func(ctx *gin.Context) {
+			data, found := ctx.Get("user")
+			if found {
+				ctx.JSON(http.StatusAccepted, gin.H{
+					"status": data,
+				})
+			}
 		})
 	}
 
 	{
 		auth_api.POST("/login", service.Login)
 		auth_api.POST("/register", service.Register)
-		auth_api.POST("/logout", service.Logout)
+		auth_api.PATCH("/logout", service.Logout)
 	}
 
 	serve.GET("/s/:id", service.RedirectToUrl)
