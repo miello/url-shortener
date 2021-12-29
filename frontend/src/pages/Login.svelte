@@ -17,7 +17,7 @@ import Button from "../components/common/Button.svelte";
     e.preventDefault()
     try {
       loading = true  
-      await apiClient.post('/login', { username, password })
+      await apiClient.post('/auth/login', { username, password })
       
       navigate("/")
       UpdateAlert({

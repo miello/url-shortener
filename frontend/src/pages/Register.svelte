@@ -28,7 +28,7 @@
         return
       }
       loading = true
-      await apiClient.post('/register', {
+      await apiClient.post('/auth/register', {
         handle: handleName,
         username,
         password
@@ -36,7 +36,7 @@
       navigate("/login")
       UpdateAlert({
         status: "success",
-        message: "Login Successfully"
+        message: "Register Successfully"
       })
     } catch(err) {
       const axiosErr = err as AxiosError

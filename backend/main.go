@@ -29,9 +29,10 @@ func main() {
 	serve.LoadHTMLGlob("templates/*")
 
 	config := cors.DefaultConfig()
+	config.AllowCredentials = true
 	config.AllowOrigins = []string{"http://localhost:5000"}
 
-	serve.Use(cors.Default())
+	serve.Use(cors.New(config))
 	serve.Use(gin.Logger())
 
 	url_api := serve.Group("/api/short")

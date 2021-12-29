@@ -15,7 +15,7 @@
   const handleSubmit = async (e: EventInput) => {
     e.preventDefault()
     try {
-      const res = await apiClient.post<{url: string}>("/api/short", { url })
+      const res = await apiClient.post<{url: string}>("/short", { url })
       result = res.data.url
       openModal = true
     } catch(err) {
