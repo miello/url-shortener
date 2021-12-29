@@ -2,7 +2,6 @@
   import Container from "../components/common/Container.svelte";
   import { apiClient } from '../utils/apiClient';
   import Modal from '../components/common/ResultModal.svelte'
-  import Alert from "../components/common/Alert.svelte";
   import Input from "../components/common/Input.svelte";
   import Button from "../components/common/Button.svelte";
   import type { EventInput } from "../types/Event";
@@ -20,9 +19,10 @@
       result = res.data.url
       openModal = true
     } catch(err) {
+      const axiosErr = err as AxiosError
       UpdateAlert({
         status: "error",
-        message: (err as AxiosError).message
+        message: axiosErr.response.data?.error && axiosErr.message
       })
     }
   };
@@ -40,7 +40,7 @@
       <div class="flex justify-center">
         <Button
           type="submit"
-          className="bg-yellow-400 color-black px-3 py-2 rounded-xl drop-shadow-md font-display font-bold">
+          className="bg-yellow-400 color-black px-3 py-2 rfont-display font-bold">
           Shorten
         </Button>
       </div>
@@ -49,5 +49,5 @@
   {#if openModal}
     <Modal on:close={() => {openModal = false}} resultUrl={result} />
   {/if}
-  <Alert />
+  
 </div>

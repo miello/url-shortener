@@ -3,6 +3,7 @@
 	import { onMount } from "svelte";
 	import { Router, Route } from 'svelte-navigator'
 	import routes from './utils/routes';
+	import Alert from './components/common/Alert.svelte';
 
 	onMount(() => {
     if(!localStorage.getItem('uuid')) {
@@ -21,6 +22,7 @@
 				</Route>
 			{/each}
 		</Router>
+		<Alert />
 	</div>
 </main>
 

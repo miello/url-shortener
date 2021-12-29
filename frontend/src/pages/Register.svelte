@@ -1,8 +1,10 @@
 <script lang="ts">
+  import type { AxiosError } from "axios";
   import { useNavigate } from "svelte-navigator";
-
+  import Button from "../components/common/Button.svelte";
   import Container from "../components/common/Container.svelte";
   import Input from "../components/common/Input.svelte";
+  import { UpdateAlert } from "../stores/AlertStores";
   import type { EventInput } from "../types/Event";
   import { apiClient } from "../utils/apiClient";
 
@@ -11,35 +13,71 @@
   export let password: string = ""
   export let confirmPassword: string = ""
 
+  let loading = false
+
   const navigate = useNavigate()
 
   const onSubmit = async (e: EventInput) => {
+    e.preventDefault()
     try {
-      e.preventDefault()
-      const res = await apiClient.post('/register', {
+      if(password !== confirmPassword) {
+        UpdateAlert({
+          status: "error",
+          message: "Confirm Password is not matching"
+        })
+        return
+      }
+      loading = true
+      await apiClient.post('/register', {
         handle: handleName,
         username,
         password
       })
-      if(res.status === 200) {
-        navigate('/login')
-      } 
+      navigate("/login")
+      UpdateAlert({
+        status: "success",
+        message: "Login Successfully"
+      })
     } catch(err) {
-      console.log(err)
+      const axiosErr = err as AxiosError
+      UpdateAlert({
+        status: "error",
+        message: axiosErr.response?.data?.error || axiosErr.message
+      })
     }
+    loading = false
   }
 
 </script>
-<Container>
-  <form on:submit={onSubmit}>
-    <h3>Register</h3>
-    <span>Handle Name</span>
-    <Input bind:value={handleName} required={true} />
-    <span>Username</span>
-    <Input bind:value={username} required={true} />
-    <span>Password</span>
-    <Input bind:value={password} required={true} />
-    <span>Confirm Password</span>
-    <Input bind:value={confirmPassword} required={true} />
-  </form>
-</Container>
+
+<div class="flex justify-center items-center w-full">
+  <Container className="h-fit w-full max-w-[500px] mx-5">
+    <form on:submit={onSubmit} class="flex flex-col ">
+      <h3 class="font-display text-3xl text-center mb-5 font-bold">Register</h3>
+      <div id="container" class="mb-5">
+        <span class="font-display">Handle Name<span class="text-red-500">*</span></span>
+        <Input label="handle name" bind:value={handleName} required={true} />
+        <span class="font-display">Username<span class="text-red-500">*</span></span>
+        <Input label="username" bind:value={username} required={true} />
+        <span class="font-display">Password<span class="text-red-500">*</span></span>
+        <Input type="password" label="password" bind:value={password} required={true} />
+        <span class="font-display">Confirm Password<span class="text-red-500">*</span></span>
+        <Input type="password" label="confirm password" bind:value={confirmPassword} required={true} />
+      </div>
+      <Button disabled={loading} type="submit" className="bg-lime-600 text-md font-display mb-5 text-white">Register</Button>
+      <hr class="h-[2px] bg-black mb-5" />
+      <h6 class="font-display text-md text-center mb-5 font-normal">Already have account ?</h6>
+      <Button className="bg-yellow-500 text-md font-display" on:click={() => navigate('/login')}>Login</Button>
+    </form>
+  </Container>
+</div>
+
+<style>
+  #container {
+    display: grid;
+    grid-template-columns: max-content auto;
+    row-gap: 0.75rem;
+    column-gap: 0.75rem;
+    align-items: center;
+  }
+</style>
