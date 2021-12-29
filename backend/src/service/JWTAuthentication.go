@@ -9,7 +9,7 @@ import (
 )
 
 type authCustomClaims struct {
-	Name string `json:"name"`
+	UserID string `json:"userId"`
 	jwt.StandardClaims
 }
 
@@ -21,12 +21,11 @@ func getSecretKey() string {
 	return secret
 }
 
-func GenerateToken(user string) string {
+func GenerateToken(userID string) string {
 	claims := &authCustomClaims{
-		user,
+		userID,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 48).Unix(),
-			Issuer:    "miello",
 			IssuedAt:  time.Now().Unix(),
 		},
 	}

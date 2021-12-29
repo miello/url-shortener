@@ -46,7 +46,7 @@ func Login(ctx *gin.Context) {
 
 	if user_match.User == "" {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Username and Password not correct",
+			"error": "Username and Password are not correct",
 		})
 		return
 	}
@@ -55,14 +55,14 @@ func Login(ctx *gin.Context) {
 	isCorrect := comparePassword(user_match.Password, password)
 
 	if isCorrect {
-		token := GenerateToken(username)
+		token := GenerateToken(user_match.ID.String())
 		ctx.SetCookie("access_token", token, 1*60*60*1000, "/", "localhost", false, true)
 		ctx.JSON(http.StatusAccepted, gin.H{
 			"status": "success",
 		})
 	} else {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Username and Password not correct",
+			"error": "Username and Password are not correct",
 		})
 	}
 }
@@ -95,11 +95,18 @@ func Register(ctx *gin.Context) {
 	password := encryptPassword(user.Password)
 	handle := user.Handle
 
-	db.Create(&dto.User{
+	create_err := db.Create(&dto.User{
 		User:     username,
 		Password: password,
 		Handle:   handle,
-	})
+	}).Error
+
+	if create_err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to create user",
+		})
+		return
+	}
 
 	ctx.JSON(http.StatusCreated, "Register Successful")
 }
@@ -124,6 +131,6 @@ func GetUser(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusAccepted, gin.H{
-		"handle": user.User,
+		"handle": user.Handle,
 	})
 }

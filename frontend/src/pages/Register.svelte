@@ -67,7 +67,7 @@
       <Button disabled={loading} type="submit" className="bg-lime-600 text-md font-display mb-5 text-white">Register</Button>
       <hr class="h-[2px] bg-black mb-5" />
       <h6 class="font-display text-md text-center mb-5 font-normal">Already have account ?</h6>
-      <Button className="bg-yellow-500 text-md font-display" on:click={() => navigate('/login')}>Login</Button>
+      <Button className="bg-yellow-500 text-md font-display text-white" on:click={() => navigate('/login')}>Login</Button>
     </form>
   </Container>
 </div>

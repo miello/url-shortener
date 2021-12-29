@@ -25,7 +25,7 @@ func AuthorizeJWT(strict bool) gin.HandlerFunc {
 			fmt.Println(validateErr)
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
-		} else if !strict {
+		} else if !strict && validateErr != nil {
 			ctx.Next()
 			return
 		}
@@ -33,7 +33,7 @@ func AuthorizeJWT(strict bool) gin.HandlerFunc {
 		claims, ok := service.ParseToken(token)
 
 		if ok {
-			ctx.Set("user", claims.Name)
+			ctx.Set("user", claims.UserID)
 			ctx.Next()
 		} else if strict {
 			ctx.AbortWithStatus(http.StatusUnauthorized)

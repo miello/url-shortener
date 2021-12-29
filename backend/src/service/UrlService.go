@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/miello/url-shortener/backend/src/dto"
 	"github.com/miello/url-shortener/backend/src/types"
 	"github.com/miello/url-shortener/backend/src/utils"
@@ -38,12 +39,39 @@ func CreateNewURL(ctx *gin.Context) {
 	short_url := fmt.Sprintf("%v/s/%v", BASE_URL, id)
 
 	db := utils.GetDB()
-	db.Create(&dto.URLShortener{
-		Original: body.Url,
-		Shorten:  short_url,
-		Expires:  time.Now().Add(time.Hour * 24),
-		UrlID:    id,
-	})
+	var create_err error
+	userId, found := ctx.Get("user")
+	if found {
+		uid, err := uuid.Parse(userId.(string))
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Invalid UUID",
+			})
+			return
+		}
+		create_err = db.Create(&dto.URLShortener{
+			Original: body.Url,
+			Shorten:  short_url,
+			Expires:  time.Now().Add(time.Hour * 24),
+			UrlID:    id,
+			UserID:   uid,
+		}).Error
+	} else {
+		create_err = db.Create(&dto.URLShortener{
+			Original: body.Url,
+			Shorten:  short_url,
+			Expires:  time.Now().Add(time.Hour * 24),
+			UrlID:    id,
+			UserID:   uuid.Nil,
+		}).Error
+	}
+
+	if create_err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to shorten url",
+		})
+		return
+	}
 
 	ctx.JSON(http.StatusCreated, gin.H{
 		"url": fmt.Sprintf("%v/s/%v", BASE_URL, id),

@@ -47,8 +47,16 @@ func ConnectDB() {
 }
 
 func MigrationDB() {
-	db.AutoMigrate(&dto.URLShortener{})
-	db.AutoMigrate(&dto.User{})
+	err_url := db.AutoMigrate(&dto.URLShortener{})
+	err_user := db.AutoMigrate(&dto.User{})
+
+	if err_url != nil {
+		println(err_url.Error())
+	}
+
+	if err_user != nil {
+		println(err_user.Error())
+	}
 }
 
 func GetDB() *gorm.DB {

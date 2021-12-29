@@ -47,8 +47,8 @@ import Button from "../components/common/Button.svelte";
       </div>
       <Button disabled={loading} type="submit" className="bg-yellow-500 text-md font-display mb-5">Login</Button>
       <hr class="h-[2px] bg-black mb-5" />
-      <h6 class="font-display text-md text-center mb-3 font-normal">New Here ?</h6>
-      <Button className="bg-lime-500 text-md font-display" on:click={() => navigate('/register')}>Create Account</Button>
+      <h6 class="font-display text-md text-center mb-3 font-normal text-white">New Here ?</h6>
+      <Button className="bg-lime-500 text-md font-display text-white" on:click={() => navigate('/register')}>Create Account</Button>
     </form>
   </Container>
 </div>
