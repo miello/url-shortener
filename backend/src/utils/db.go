@@ -47,15 +47,10 @@ func ConnectDB() {
 }
 
 func MigrationDB() {
-	err_url := db.AutoMigrate(&dto.URLShortener{})
-	err_user := db.AutoMigrate(&dto.User{})
+	migrate_err := db.AutoMigrate(&dto.URLShortener{}, &dto.User{})
 
-	if err_url != nil {
-		println(err_url.Error())
-	}
-
-	if err_user != nil {
-		println(err_user.Error())
+	if migrate_err != nil {
+		println(migrate_err.Error())
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/miello/url-shortener/backend/src/dto"
 	"github.com/miello/url-shortener/backend/src/types"
 	"github.com/miello/url-shortener/backend/src/utils"
@@ -117,11 +118,12 @@ func Logout(ctx *gin.Context) {
 }
 
 func GetUser(ctx *gin.Context) {
-	username, _ := ctx.Get("user")
+	userId, _ := ctx.Get("user")
 	db := utils.GetDB()
 	var user dto.User
 
-	err := db.Where(&dto.User{User: username.(string)}).First(&user)
+	uuid, _ := uuid.Parse(userId.(string))
+	err := db.Where(&dto.Base{ID: uuid}).First(&user)
 
 	if err.Error != nil {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
@@ -133,4 +135,8 @@ func GetUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusAccepted, gin.H{
 		"handle": user.Handle,
 	})
+}
+
+func ForgetPassword(ctx *gin.Context) {
+	ctx.AbortWithStatus(http.StatusNotImplemented)
 }

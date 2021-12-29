@@ -36,35 +36,30 @@ func CreateNewURL(ctx *gin.Context) {
 	BASE_URL := os.Getenv("SHORTEN_BASE_URL")
 	id := utils.GenerateNewId(5, body.Url)
 
-	short_url := fmt.Sprintf("%v/s/%v", BASE_URL, id)
-
 	db := utils.GetDB()
-	var create_err error
 	userId, found := ctx.Get("user")
+
+	var uid uuid.UUID
+	var uuid_err error
+
 	if found {
-		uid, err := uuid.Parse(userId.(string))
-		if err != nil {
+		uid, uuid_err = uuid.Parse(userId.(string))
+		if uuid_err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"error": "Invalid UUID",
 			})
 			return
 		}
-		create_err = db.Create(&dto.URLShortener{
-			Original: body.Url,
-			Shorten:  short_url,
-			Expires:  time.Now().Add(time.Hour * 24),
-			UrlID:    id,
-			UserID:   uid,
-		}).Error
 	} else {
-		create_err = db.Create(&dto.URLShortener{
-			Original: body.Url,
-			Shorten:  short_url,
-			Expires:  time.Now().Add(time.Hour * 24),
-			UrlID:    id,
-			UserID:   uuid.Nil,
-		}).Error
+		uid = uuid.Nil
 	}
+
+	create_err := db.Create(&dto.URLShortener{
+		Original: body.Url,
+		Expires:  time.Now().Add(time.Hour * 24),
+		UrlID:    id,
+		UserID:   uid,
+	}).Error
 
 	if create_err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -81,14 +76,69 @@ func CreateNewURL(ctx *gin.Context) {
 func RedirectToUrl(ctx *gin.Context) {
 	id := ctx.Param("id")
 	url, ok := utils.GetUrlFromId(id)
-	FRONT_END_URL := os.Getenv("FRONTEND_URL")
+	FRONTEND_URL := os.Getenv("FRONTEND_URL")
+
+	if id == "" {
+		ctx.Redirect(http.StatusTemporaryRedirect, FRONTEND_URL)
+		return
+	}
 
 	if !ok {
 		ctx.HTML(http.StatusNotFound, "index.html", gin.H{
-			"link": FRONT_END_URL,
+			"link": FRONTEND_URL,
 		})
 		return
 	}
 
-	ctx.Redirect(http.StatusMovedPermanently, url)
+	ctx.Redirect(http.StatusTemporaryRedirect, url)
+}
+
+func EditOriginalUrl(ctx *gin.Context) {
+	var body types.EditURLRequest
+	url_short, _ := ctx.Get("post")
+
+	model_url := url_short.(dto.URLShortener)
+	bind_err := ctx.BindJSON(&body)
+
+	if bind_err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": "Missing New URL",
+		})
+		return
+	}
+
+	containHttp := strings.Contains(body.Url, "http://")
+	containHttps := strings.Contains(body.Url, "https://")
+
+	if !containHttp && !containHttps {
+		body.Url = "http://" + body.Url
+	}
+
+	db := utils.GetDB()
+
+	model_url.Original = body.Url
+	db.Save(&model_url)
+
+	ctx.JSON(http.StatusAccepted, gin.H{
+		"msg": "Change Successfully",
+	})
+}
+
+func DeleteShortenerUrl(ctx *gin.Context) {
+	url_short, _ := ctx.Get("post")
+	model_url := url_short.(dto.URLShortener)
+
+	db := utils.GetDB()
+	err := db.Delete(&model_url).Error
+
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to delete this id",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"msg": "Delete Successfully",
+	})
 }

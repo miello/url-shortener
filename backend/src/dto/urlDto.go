@@ -10,7 +10,6 @@ import (
 type URLShortener struct {
 	gorm.Model
 	Original string
-	Shorten  string
 	UrlID    string
 	UserID   uuid.UUID `gorm:"default:null"`
 	User     User

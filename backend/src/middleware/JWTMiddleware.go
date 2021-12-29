@@ -12,7 +12,9 @@ func AuthorizeJWT(strict bool) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authToken, err := ctx.Cookie("access_token")
 		if err != nil && strict {
-			ctx.AbortWithStatus(http.StatusUnauthorized)
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error": "Please Login First",
+			})
 			return
 		} else if err != nil && !strict {
 			ctx.Next()
@@ -23,7 +25,9 @@ func AuthorizeJWT(strict bool) gin.HandlerFunc {
 
 		if validateErr != nil || !token.Valid {
 			fmt.Println(validateErr)
-			ctx.AbortWithStatus(http.StatusUnauthorized)
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error": "Please try to logout and login",
+			})
 			return
 		} else if !strict && validateErr != nil {
 			ctx.Next()
@@ -36,7 +40,9 @@ func AuthorizeJWT(strict bool) gin.HandlerFunc {
 			ctx.Set("user", claims.UserID)
 			ctx.Next()
 		} else if strict {
-			ctx.AbortWithStatus(http.StatusUnauthorized)
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error": "Please try to logout and login",
+			})
 		} else if !strict {
 			ctx.Next()
 		}

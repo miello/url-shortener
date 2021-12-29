@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"math/rand"
-	"net/http"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -40,24 +39,18 @@ func main() {
 
 	{
 		url_api.POST("", middleware.AuthorizeJWT(false), service.CreateNewURL)
-		url_api.GET("/history", middleware.AuthorizeJWT(true), func(ctx *gin.Context) {
-			data, found := ctx.Get("user")
-			if found {
-				ctx.JSON(http.StatusAccepted, gin.H{
-					"status": data,
-				})
-			}
-		})
+		url_api.PUT("/:id", middleware.AuthorizeJWT(true), middleware.CheckAuthorMiddleware(), service.EditOriginalUrl)
+		url_api.DELETE("/:id", middleware.AuthorizeJWT(true), middleware.CheckAuthorMiddleware(), service.DeleteShortenerUrl)
+		serve.GET("/s/:id", service.RedirectToUrl)
 	}
 
 	{
 		auth_api.POST("/login", service.Login)
 		auth_api.POST("/register", service.Register)
 		auth_api.PATCH("/logout", service.Logout)
+		auth_api.PUT("/forgetpassword", service.ForgetPassword)
 		auth_api.GET("/user", middleware.AuthorizeJWT(true), service.GetUser)
 	}
-
-	serve.GET("/s/:id", service.RedirectToUrl)
 
 	serve.Run()
 }
