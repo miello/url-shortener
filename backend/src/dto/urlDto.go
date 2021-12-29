@@ -12,7 +12,7 @@ type URLShortener struct {
 	Original string
 	Shorten  string
 	UrlID    string
-	UserID   uuid.UUID
+	UserID   uuid.UUID `gorm:"default:null"`
 	User     User
 	Expires  time.Time
 }
