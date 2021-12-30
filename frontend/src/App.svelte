@@ -4,6 +4,7 @@
 	import { Router, Route } from 'svelte-navigator'
 	import routes from './utils/routes';
 	import Alert from './components/common/Alert.svelte';
+	import Navbar from './modules/Navbar.svelte';
 
 	onMount(() => {
     if(!localStorage.getItem('uuid')) {
@@ -16,6 +17,7 @@
 <main class="min-h-screen bg flex">
 	<div class="flex w-full">
 		<Router>
+			<Navbar />
 			{#each routes as { path, Components}}
 				<Route path={path}>
 					<Components />

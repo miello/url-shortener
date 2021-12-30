@@ -1,7 +1,7 @@
 <script lang="ts">
   import Container from "../components/common/Container.svelte";
   import { apiClient } from '../utils/apiClient';
-  import Modal from '../components/common/ResultModal.svelte'
+  import Modal from '../modules/ResultModal.svelte'
   import Input from "../components/common/Input.svelte";
   import Button from "../components/common/Button.svelte";
   import type { EventInput } from "../types/Event";
@@ -11,9 +11,11 @@
   let url: string = "";
   let openModal: boolean = false
   let result: string = ""
+  let isLoad: boolean = false
   
   const handleSubmit = async (e: EventInput) => {
     e.preventDefault()
+    isLoad = true
     try {
       const res = await apiClient.post<{url: string}>("/short", { url })
       result = res.data.url
@@ -25,6 +27,7 @@
         message: axiosErr.response.data?.error && axiosErr.message
       })
     }
+    isLoad = false
   };
   
 </script>
@@ -39,6 +42,7 @@
       </div>
       <div class="flex justify-center">
         <Button
+          disabled={isLoad}
           type="submit"
           className="bg-yellow-400 color-black px-3 py-2 rfont-display font-bold">
           Shorten

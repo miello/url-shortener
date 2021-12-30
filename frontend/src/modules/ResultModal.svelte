@@ -1,10 +1,10 @@
 <script lang="ts">
 import { createEventDispatcher, onDestroy } from "svelte";
 import { scale, fly } from "svelte/transition";
-import Button from "./Button.svelte";
-import Container from "./Container.svelte";
-import CloseIcon from '../icons/CloseIcon.svelte'
-import Copy from "../icons/Copy.svelte";
+import Button from "../components/common/Button.svelte";
+import Container from "../components/common/Container.svelte";
+import CloseIcon from '../components/icons/CloseIcon.svelte'
+import Copy from "../components/icons/Copy.svelte";
 
 const dispatch = createEventDispatcher()
 export let resultUrl: string = ""

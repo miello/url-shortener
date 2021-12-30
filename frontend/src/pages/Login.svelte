@@ -7,6 +7,7 @@
 import { UpdateAlert } from "../stores/AlertStores";
 import type { AxiosError } from "axios";
 import Button from "../components/common/Button.svelte";
+import { GetUser } from "../stores/UserStores";
 
   export let username: string = ""
   export let password: string = ""
@@ -15,8 +16,8 @@ import Button from "../components/common/Button.svelte";
   let navigate = useNavigate()
   const onSubmit = async (e: EventInput) => {
     e.preventDefault()
+    loading = true
     try {
-      loading = true  
       await apiClient.post('/auth/login', { username, password })
       
       navigate("/")
@@ -24,6 +25,8 @@ import Button from "../components/common/Button.svelte";
         status: "success",
         message: "Login Successfully"
       })
+
+      await GetUser()
     } catch(err) {
       const axiosErr = err as AxiosError
       UpdateAlert({
@@ -47,7 +50,7 @@ import Button from "../components/common/Button.svelte";
       </div>
       <Button disabled={loading} type="submit" className="bg-yellow-500 text-md font-display mb-5">Login</Button>
       <hr class="h-[2px] bg-black mb-5" />
-      <h6 class="font-display text-md text-center mb-3 font-normal text-white">New Here ?</h6>
+      <h6 class="font-display text-md text-center mb-3 font-normal ">New Here ?</h6>
       <Button className="bg-lime-500 text-md font-display text-white" on:click={() => navigate('/register')}>Create Account</Button>
     </form>
   </Container>
