@@ -1,7 +1,7 @@
-import type { AxiosError } from "axios"
-import { writable } from "svelte/store"
-import { apiClient } from "../utils/apiClient"
-import { UpdateAlert } from "./AlertStores"
+import type { AxiosError } from 'axios'
+import { writable } from 'svelte/store'
+import { apiClient } from '../utils/apiClient'
+import { UpdateAlert } from './AlertStores'
 
 export interface IRequestUser {
   handle: string
@@ -17,7 +17,7 @@ export const UserStores = writable<IUserStores>({
 
 export const GetUser = async () => {
   try {
-    const res = await apiClient.get<IRequestUser>("/auth/user")
+    const res = await apiClient.get<IRequestUser>('/auth/user')
     UserStores.set({
       ...res.data,
       ready: true,
@@ -25,7 +25,7 @@ export const GetUser = async () => {
   } catch (err) {
     const axiosErr = err as AxiosError
     UpdateAlert({
-      status: "error",
+      status: 'error',
       message: axiosErr.response?.data?.error || axiosErr.message,
     })
     UserStores.set({

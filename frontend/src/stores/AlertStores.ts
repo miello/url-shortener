@@ -1,13 +1,13 @@
-import { writable } from "svelte/store"
+import { writable } from 'svelte/store'
 
 export interface IErrorStores {
-  status: "error" | "success"
+  status: 'error' | 'success'
   message: string
 }
 
 export const AlertStores = writable<IErrorStores>({
-  status: "success",
-  message: "",
+  status: 'success',
+  message: '',
 })
 
 export const OpenError = writable<boolean>(false)

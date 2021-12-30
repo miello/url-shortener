@@ -1,17 +1,17 @@
 <script lang="ts">
-  import type { AxiosError } from "axios";
-  import { useNavigate } from "svelte-navigator";
-  import Button from "../components/common/Button.svelte";
-  import Container from "../components/common/Container.svelte";
-  import Input from "../components/common/Input.svelte";
-  import { UpdateAlert } from "../stores/AlertStores";
-  import type { EventInput } from "../types/Event";
-  import { apiClient } from "../utils/apiClient";
+  import type { AxiosError } from 'axios'
+  import { useNavigate } from 'svelte-navigator'
+  import Button from '../components/common/Button.svelte'
+  import Container from '../components/common/Container.svelte'
+  import Input from '../components/common/Input.svelte'
+  import { UpdateAlert } from '../stores/AlertStores'
+  import type { EventInput } from '../types/Event'
+  import { apiClient } from '../utils/apiClient'
 
-  export let handleName: string = ""
-  export let username: string = ""
-  export let password: string = ""
-  export let confirmPassword: string = ""
+  export let handleName: string = ''
+  export let username: string = ''
+  export let password: string = ''
+  export let confirmPassword: string = ''
 
   let loading = false
 
@@ -20,10 +20,10 @@
   const onSubmit = async (e: EventInput) => {
     e.preventDefault()
     try {
-      if(password !== confirmPassword) {
+      if (password !== confirmPassword) {
         UpdateAlert({
-          status: "error",
-          message: "Confirm Password is not matching"
+          status: 'error',
+          message: 'Confirm Password is not matching',
         })
         return
       }
@@ -31,23 +31,22 @@
       await apiClient.post('/auth/register', {
         handle: handleName,
         username,
-        password
+        password,
       })
-      navigate("/login")
+      navigate('/login')
       UpdateAlert({
-        status: "success",
-        message: "Register Successfully"
+        status: 'success',
+        message: 'Register Successfully',
       })
-    } catch(err) {
+    } catch (err) {
       const axiosErr = err as AxiosError
       UpdateAlert({
-        status: "error",
-        message: axiosErr.response?.data?.error || axiosErr.message
+        status: 'error',
+        message: axiosErr.response?.data?.error || axiosErr.message,
       })
     }
     loading = false
   }
-
 </script>
 
 <div class="flex justify-center items-center w-full">
@@ -55,19 +54,47 @@
     <form on:submit={onSubmit} class="flex flex-col ">
       <h3 class="font-display text-3xl text-center mb-5 font-bold">Register</h3>
       <div id="container" class="mb-5">
-        <span class="font-display">Handle Name<span class="text-red-500">*</span></span>
+        <span class="font-display"
+          >Handle Name<span class="text-red-500">*</span></span
+        >
         <Input label="handle name" bind:value={handleName} required={true} />
-        <span class="font-display">Username<span class="text-red-500">*</span></span>
+        <span class="font-display"
+          >Username<span class="text-red-500">*</span></span
+        >
         <Input label="username" bind:value={username} required={true} />
-        <span class="font-display">Password<span class="text-red-500">*</span></span>
-        <Input type="password" label="password" bind:value={password} required={true} />
-        <span class="font-display">Confirm Password<span class="text-red-500">*</span></span>
-        <Input type="password" label="confirm password" bind:value={confirmPassword} required={true} />
+        <span class="font-display"
+          >Password<span class="text-red-500">*</span></span
+        >
+        <Input
+          type="password"
+          label="password"
+          bind:value={password}
+          required={true}
+        />
+        <span class="font-display"
+          >Confirm Password<span class="text-red-500">*</span></span
+        >
+        <Input
+          type="password"
+          label="confirm password"
+          bind:value={confirmPassword}
+          required={true}
+        />
       </div>
-      <Button disabled={loading} type="submit" className="bg-lime-600 text-md font-display mb-5 text-white">Register</Button>
+      <Button
+        disabled={loading}
+        type="submit"
+        className="bg-lime-600 text-md font-display mb-5 text-white"
+        >Register</Button
+      >
       <hr class="h-[2px] bg-black mb-5" />
-      <h6 class="font-display text-md text-center mb-5 font-normal">Already have account ?</h6>
-      <Button className="bg-yellow-500 text-md font-display text-white" on:click={() => navigate('/login')}>Login</Button>
+      <h6 class="font-display text-md text-center mb-5 font-normal">
+        Already have account ?
+      </h6>
+      <Button
+        className="bg-yellow-500 text-md font-display text-white"
+        on:click={() => navigate('/login')}>Login</Button
+      >
     </form>
   </Container>
 </div>
