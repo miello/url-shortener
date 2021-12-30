@@ -109,12 +109,16 @@ func Register(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, "Register Successful")
+	ctx.JSON(http.StatusCreated, gin.H{
+		"msg": "Register Successful",
+	})
 }
 
 func Logout(ctx *gin.Context) {
 	ctx.SetCookie("access_token", "", -1, "/", "localhost", false, true)
-	ctx.JSON(http.StatusOK, "Logout Successfully")
+	ctx.JSON(http.StatusOK, gin.H{
+		"msg": "Logout Successfully",
+	})
 }
 
 func GetUser(ctx *gin.Context) {

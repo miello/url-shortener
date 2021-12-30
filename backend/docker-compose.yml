@@ -12,3 +12,6 @@ services:
 
     ports:
       - ${DATABASE_PORT}:5432
+
+    volumes:
+      - ./db:/var/lib/postgresql/data
