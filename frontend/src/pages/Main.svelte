@@ -39,7 +39,7 @@
     <Container className="mb-4 max-w-[500px] w-full">
       <div class="flex mb-4 items-center">
         <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md"
-          >URL :
+          >URL:
         </span>
         <Input bind:value={url} required={true} label="Your URL" />
       </div>

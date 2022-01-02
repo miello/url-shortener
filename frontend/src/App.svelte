@@ -6,17 +6,17 @@
 </script>
 
 <main class="min-h-screen bg flex">
-  <div class="flex w-full">
-    <Router>
-      <Navbar />
+  <Router>
+    <Navbar />
+    <div class="flex w-full">
       {#each routes as { path, Components }}
         <Route {path}>
           <Components />
         </Route>
       {/each}
-    </Router>
-    <Alert />
-  </div>
+      <Alert />
+    </div>
+  </Router>
 </main>
 
 <style lang="postcss" global>
