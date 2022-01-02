@@ -38,7 +38,7 @@
   }
 </script>
 
-<div class="flex justify-center items-center w-full">
+<div class="flex justify-center items-center w-full ">
   <Container className="h-fit w-full max-w-[500px] mx-5">
     <form on:submit={onSubmit} class="flex flex-col ">
       <h3 class="font-display text-3xl text-center mb-5 font-bold">Login</h3>

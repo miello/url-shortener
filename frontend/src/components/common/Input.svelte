@@ -16,6 +16,6 @@
   use:setType
   {label}
   placeholder={placeHolder}
-  class={`px-2.5 py-1 flex-1 rounded-xl hover:border-black border-2 ${className}`}
+  class={`box-content px-2.5 py-1 flex-1 rounded-xl hover:border-black border-2 ${className}`}
   {required}
 />

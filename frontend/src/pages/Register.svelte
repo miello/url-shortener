@@ -92,7 +92,7 @@
         Already have account ?
       </h6>
       <Button
-        className="bg-yellow-500 text-md font-display text-white"
+        className="bg-yellow-500 text-md font-display"
         on:click={() => navigate('/login')}>Login</Button
       >
     </form>

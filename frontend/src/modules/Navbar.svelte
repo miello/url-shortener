@@ -7,10 +7,12 @@
   import { UserStores } from '../stores/UserStores'
   import Loading from '../components/common/Loading.svelte'
   import Avatar from '../components/common/Avatar.svelte'
+  import Dropdown from './Dropdown.svelte'
 
   onMount(() => {
     GetUser()
   })
+  let isOpen = false
 </script>
 
 <Container
@@ -35,7 +37,12 @@
         </Link>
       </div>
     {:else}
-      <Avatar name={$UserStores.handle} />
+      <div class="relative">
+        <Avatar name={$UserStores.handle} on:click={() => isOpen = !isOpen} />
+        {#if isOpen}
+          <Dropdown className="absolute right-0 mt-2" on:close={() => isOpen = !isOpen} />
+        {/if}
+      </div>
     {/if}
   {:else}
     <Loading />
