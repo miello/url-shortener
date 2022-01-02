@@ -9,7 +9,6 @@
 
   export let className: string = ""
   
-  let dropdownRef: HTMLDivElement
   let dispatchEvent = createEventDispatcher()
   const navigate = useNavigate()
   const ICON_LIST = [
@@ -41,7 +40,7 @@
   }
 </script>
 
-<div bind:this={dropdownRef} transition:scale={{ duration: 200 }} class={`${className} bg-black w-[220px] flex flex-col rounded-2xl py-2 origin-top-right`}>
+<div transition:scale={{ duration: 200 }} class={`${className} bg-black w-[220px] flex flex-col rounded-2xl py-2 origin-top-right`}>
   <h5 class="text-white font-display pl-4 font-bold">Signed in as {$UserStores.handle || ""}</h5>
   <hr class="my-2" />
   <div class="grid grid-cols-1 gap-2">
