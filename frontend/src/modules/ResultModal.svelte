@@ -7,8 +7,8 @@
   import type { EventInput } from '../types/Event'
 
   const dispatch = createEventDispatcher()
-  export let resultUrl: string = ''
-  let isCopied: boolean = false
+  export let resultUrl = ''
+  let isCopied = false
   let prev: any = 0
 
   const onClose = () => {

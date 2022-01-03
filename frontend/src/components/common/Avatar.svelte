@@ -1,7 +1,7 @@
 <script lang="ts">
-  export let className: string = ''
-  export let src: string = ''
-  export let name: string = ''
+  export let className = ''
+  export let src = ''
+  export let name = ''
 </script>
 
 <div

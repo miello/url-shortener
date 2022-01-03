@@ -20,8 +20,8 @@
     'Action',
   ]
   let promise: Promise<AxiosResponse<IHistoryRequest>> = null
-  let currentId: string = ''
-  let openModal: boolean = false
+  let currentId = ''
+  let openModal = false
 
   onMount(() => {
     promise = apiClient.get('/short/history')
@@ -79,7 +79,7 @@
                   >{original}</td
                 >
                 <td class="border-2 border-solid border-black px-2"
-                  >{!!expires ? new Date(expires).toLocaleString() : '-'}</td
+                  >{expires ? new Date(expires).toLocaleString() : '-'}</td
                 >
                 <td class="border-2 border-solid border-black px-2 py-2">
                   <Button className="bg-[#BDFF00] py-1 font-semibold"

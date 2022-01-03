@@ -8,10 +8,10 @@
   import { UpdateAlert } from '../stores/AlertStores'
   import type { AxiosError } from 'axios'
 
-  let url: string = ''
-  let openModal: boolean = false
-  let result: string = ''
-  let isLoad: boolean = false
+  let url = ''
+  let openModal = false
+  let result = ''
+  let isLoad = false
 
   const handleSubmit = async (e: EventInput) => {
     e.preventDefault()

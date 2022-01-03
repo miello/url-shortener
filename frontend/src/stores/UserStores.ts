@@ -23,7 +23,7 @@ export const GetUser = async () => {
       ready: true,
     })
   } catch (err) {
-    const axiosErr = err as AxiosError
+    const axiosErr = err as AxiosError<{ error: string }>
     UserStores.set({
       ready: true,
     })

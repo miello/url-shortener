@@ -9,8 +9,8 @@
   import Button from '../components/common/Button.svelte'
   import { GetUser } from '../stores/UserStores'
 
-  export let username: string = ''
-  export let password: string = ''
+  export let username = ''
+  export let password = ''
   let loading = false
 
   let navigate = useNavigate()

@@ -1,6 +1,6 @@
 <script lang="ts">
-  export let className: string = ''
-  export let rounded: boolean = true
+  export let className = ''
+  export let rounded = true
 </script>
 
 <section

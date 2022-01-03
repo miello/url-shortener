@@ -8,10 +8,10 @@
   import type { EventInput } from '../types/Event'
   import { apiClient } from '../utils/apiClient'
 
-  export let handleName: string = ''
-  export let username: string = ''
-  export let password: string = ''
-  export let confirmPassword: string = ''
+  export let handleName = ''
+  export let username = ''
+  export let password = ''
+  export let confirmPassword = ''
 
   let loading = false
 

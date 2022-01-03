@@ -7,7 +7,7 @@
   import { useNavigate } from 'svelte-navigator'
   import { createEventDispatcher, onMount } from 'svelte'
 
-  export let className: string = ''
+  export let className = ''
 
   let dispatchEvent = createEventDispatcher()
   const navigate = useNavigate()

@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let className: string = ''
+  export let className = ''
   export let type: 'submit' | 'reset' | 'button' = 'button'
   export let disabled = false
 </script>

@@ -14,7 +14,7 @@ export const OpenError = writable<boolean>(false)
 
 let cnt = -1
 
-export const UpdateAlert = (newVal: IErrorStores, delay: number = 7000) => {
+export const UpdateAlert = (newVal: IErrorStores, delay = 7000) => {
   if (cnt !== -1) return
   AlertStores.set(newVal)
   OpenError.set(true)
