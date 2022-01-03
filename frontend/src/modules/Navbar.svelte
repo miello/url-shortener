@@ -16,25 +16,35 @@
   }
 
   const handleClick = (ev: MouseEvent) => {
-    if(avatarRef && !avatarRef.contains(ev.target as Node) && !ev.defaultPrevented) {
+    if (
+      avatarRef &&
+      !avatarRef.contains(ev.target as Node) &&
+      !ev.defaultPrevented
+    ) {
       isOpen = false
     }
+  }
+
+  const handleCloseKeyboard = (ev: KeyboardEvent) => {
+    if (ev.code === 'Escape') isOpen = false
   }
 
   onMount(() => {
     GetUser()
     document.addEventListener('click', handleClick, true)
+    document.addEventListener('keydown', handleCloseKeyboard, true)
   })
 
   onDestroy(() => {
     document.removeEventListener('click', handleClick, true)
+    document.removeEventListener('keydown', handleCloseKeyboard, true)
   })
   let isOpen = false
 </script>
 
 <Container
   rounded={false}
-  className="flex justify-between items-center w-full absolute py-1"
+  className="z-50 flex justify-between items-center w-full absolute py-1"
 >
   <Link to="/">
     <Logo />
@@ -57,7 +67,10 @@
       <div bind:this={avatarRef} class="relative">
         <Avatar name={$UserStores.handle} on:click={handleOpen} />
         {#if isOpen}
-          <Dropdown className="absolute right-0 mt-2" on:close={handleOpen} />
+          <Dropdown
+            className="absolute right-0 mt-2 z-50"
+            on:close={handleOpen}
+          />
         {/if}
       </div>
     {/if}

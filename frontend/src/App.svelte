@@ -5,10 +5,10 @@
   import Navbar from './modules/Navbar.svelte'
 </script>
 
-<main class="min-h-screen bg flex">
+<main class="min-h-screen bg flex relative">
   <Router>
     <Navbar />
-    <div class="flex w-full mt-[52px] py-4">
+    <div class="flex w-full mt-[52px]">
       {#each routes as { path, Components }}
         <Route {path}>
           <Components />

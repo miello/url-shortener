@@ -8,7 +8,7 @@
 <div
   class={`absolute left-1/2 ${
     $OpenError ? 'top-10' : '-top-20'
-  } -translate-x-1/2 transition-all duration-300 ease-linear`}
+  } -translate-x-1/2 transition-all duration-300 ease-linear z-50`}
 >
   <div
     class={`red-500 px-4 py-2 flex items-center text-white rounded-xl ${
