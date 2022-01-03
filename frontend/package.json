@@ -7,7 +7,8 @@
     "dev": "rollup -c -w ",
     "format": "prettier --write \"src/**/*.{tsx,ts,js,svelte}\"",
     "start": "sirv public --no-clear --single",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "prepare": "cd .. && husky install ./frontend/.husky"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -16,6 +17,8 @@
     "@rollup/plugin-replace": "^3.0.0",
     "@rollup/plugin-typescript": "^8.3.0",
     "@tsconfig/svelte": "^2.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.5",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.5.1",
     "rollup": "^2.3.4",
