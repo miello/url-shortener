@@ -1,9 +1,12 @@
 <script>
-import UserGuard from "../components/hoc/UserGuard.svelte";
-
+  import Container from "../components/common/Container.svelte";
 </script>
-<UserGuard>
+
+<Container>
   <div>
-    User only
+      
   </div>
-</UserGuard>
+  <div>
+    
+  </div>
+</Container>

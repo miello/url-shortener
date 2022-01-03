@@ -9,15 +9,15 @@ import { UpdateAlert } from '../../stores/AlertStores';
   let handle = null
 
   UserStores.subscribe((val) => {
-    isReady = val.ready
-    handle = val.handle
-    if(val.ready && !handle) {
+    if(val.ready && !val.handle) {
       UpdateAlert({
         status: "error",
         message: "Please Login First"
       })
       navigate('/login')
     }
+    isReady = val.ready
+    handle = val.handle
   })
 
 </script>

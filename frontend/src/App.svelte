@@ -8,7 +8,7 @@
 <main class="min-h-screen bg flex">
   <Router>
     <Navbar />
-    <div class="flex w-full">
+    <div class="flex w-full mt-[52px] py-4">
       {#each routes as { path, Components }}
         <Route {path}>
           <Components />

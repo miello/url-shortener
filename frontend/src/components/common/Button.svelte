@@ -6,7 +6,7 @@
 
 <button
   {disabled}
-  class={`drop-shadow-lg px-4 py-2 rounded-xl ${className} disabled:bg-gray-500 transition-all`}
+  class={`font-display drop-shadow-lg px-4 py-2 rounded-xl ${className} disabled:bg-gray-500 transition-all`}
   {type}
   on:click><slot /></button
 >

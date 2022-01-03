@@ -2,8 +2,10 @@ package service
 
 import (
 	"fmt"
+	"math"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -140,5 +142,75 @@ func DeleteShortenerUrl(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"msg": "Delete Successfully",
+	})
+}
+
+func GetHistoryWithLimit(ctx *gin.Context) {
+	query_limit := ctx.Query("limit")
+	query_page := ctx.Query("pages")
+
+	if query_limit == "" {
+		query_limit = "7"
+	}
+
+	if query_page == "" {
+		query_page = "1"
+	}
+
+	limit, err_limit := strconv.Atoi(query_limit)
+	pages, err_page := strconv.Atoi(query_page)
+	if err_limit != nil || err_page != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid Query",
+		})
+		return
+	}
+
+	if pages <= 0 {
+		pages = 1
+	}
+
+	db := utils.GetDB()
+	userId, _ := ctx.Get("user")
+	uid, uuid_err := uuid.Parse(userId.(string))
+	if uuid_err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid UUID",
+		})
+		return
+	}
+
+	url_list := make([]dto.URLShortener, 0)
+	var cnt int64
+
+	db_query := db.Model(&dto.URLShortener{}).Where(dto.URLShortener{UserID: uid})
+
+	err := db_query.Count(&cnt).Where(dto.URLShortener{UserID: uid}).Offset((pages - 1) * limit).Limit(limit).Order("created_at desc").Find(&url_list).Error
+
+	if err != nil {
+		println(err.Error())
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"error": "Something wrong with query",
+		})
+		return
+	}
+
+	res := make([]types.UserHistoryResponse, 0)
+	for _, element := range url_list {
+		res = append(res, types.UserHistoryResponse{
+			Original:  element.Original,
+			ShortenId: element.UrlID,
+			CreatedAt: element.CreatedAt,
+			Expires:   element.Expires,
+		})
+	}
+
+	all_pages := uint(math.Ceil(float64(cnt) / float64(limit)))
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data":      res,
+		"count":     cnt,
+		"all_pages": all_pages,
+		"current":   pages,
 	})
 }

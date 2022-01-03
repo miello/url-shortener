@@ -42,6 +42,7 @@ func main() {
 		url_api.PUT("/:id", middleware.AuthorizeJWT(true), middleware.CheckAuthorMiddleware(), service.EditOriginalUrl)
 		url_api.DELETE("/:id", middleware.AuthorizeJWT(true), middleware.CheckAuthorMiddleware(), service.DeleteShortenerUrl)
 		serve.GET("/s/:id", service.RedirectToUrl)
+		url_api.GET("/history", middleware.AuthorizeJWT(true), service.GetHistoryWithLimit)
 	}
 
 	{

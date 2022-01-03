@@ -25,8 +25,9 @@ func AuthorizeJWT(strict bool) gin.HandlerFunc {
 
 		if validateErr != nil || !token.Valid {
 			fmt.Println(validateErr)
+			ctx.SetCookie("access_token", "", -1, "/", "localhost", false, true)
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error": "Please try to logout and login",
+				"error": "Please try to login again",
 			})
 			return
 		} else if !strict && validateErr != nil {
