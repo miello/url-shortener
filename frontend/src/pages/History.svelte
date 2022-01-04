@@ -82,17 +82,21 @@
       <div class="flex justify-center">
         <h4 class="font-bold font-display text-2xl mb-4">History</h4>
       </div>
-      <Container className="max-w-[800px] overflow-auto mx-auto">
+      <Container className="max-w-[800px] overflow-auto mx-auto h-[430px]">
         <table class="m-0 p-0 border-4 border-solid border-black w-full">
           {#if promise !== null}
-            <tr class="border-2 border-solid border-black font-semibold">
-              {#each TABLE_HEADER as topic}
-                <th class="border-2 border-solid border-black p-2">{topic}</th>
-              {/each}
-            </tr>
             {#await promise}
-              <Loading />
+              <div class="flex justify-center items-center h-full">
+                <Loading />
+              </div>
             {:then value}
+              <tr class="border-2 border-solid border-black font-semibold">
+                {#each TABLE_HEADER as topic}
+                  <th class="border-2 border-solid border-black p-2 h-fit"
+                    >{topic}</th
+                  >
+                {/each}
+              </tr>
               {#each value.data.data as { original, shorten_id, created_at, expires }}
                 <tr>
                   <td class="border-2 border-solid border-black px-2"

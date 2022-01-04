@@ -7,6 +7,7 @@
 
   export let current = 4
   export let allPages = 10
+  let innerChip: number[] = []
 
   let dispatchEvent = createEventDispatcher()
 
@@ -17,7 +18,27 @@
   }
 
   $: (() => {
-    console.log(current)
+    let newChip = []
+    if (current === 1) {
+      for (let i = 1; i <= 3; ++i) {
+        if (i <= allPages && i !== 1 && i !== allPages) {
+          newChip.push(i)
+        }
+      }
+    } else if (current === allPages) {
+      for (let i = allPages - 2; i <= allPages; ++i) {
+        if (i >= 1 && i !== 1 && i !== allPages) {
+          newChip.push(i)
+        }
+      }
+    } else {
+      for (let i = current - 1; i <= current + 1; ++i) {
+        if (i >= 1 && i <= allPages && i !== 1 && i !== allPages) {
+          newChip.push(i)
+        }
+      }
+    }
+    innerChip = [...newChip]
   })()
 
   const handleNext = () => {
@@ -41,13 +62,38 @@
     >
       <ArrowLeft />
     </div>
-    <Chip className="bg-[#ABA9FC] ml-2 mr-2">1</Chip>
-    {#if current >= 4 && current <= allPages - 3}
+    <Chip
+      className={`${
+        current === 1 ? 'bg-white' : 'bg-[#ABA9FC]'
+      } mr-2 cursor-pointer`}
+      on:click={() => handleChange(1)}>1</Chip
+    >
+    {#if (current >= 4 && allPages >= 6) || (current >= allPages - 1 && allPages >= 5)}
       <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
       <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
       <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
     {/if}
-
+    {#each innerChip as val}
+      <Chip
+        className={`${
+          current === val ? 'bg-white' : 'bg-[#ABA9FC]'
+        } mr-2 cursor-pointer`}
+        on:click={() => handleChange(val)}>{val}</Chip
+      >
+    {/each}
+    {#if (current <= allPages - 3 && allPages >= 6) || (current <= 2 && allPages >= 5)}
+      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
+      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
+      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
+    {/if}
+    {#if allPages > 1}
+      <Chip
+        className={`${
+          current === allPages ? 'bg-white' : 'bg-[#ABA9FC]'
+        } mr-2 cursor-pointer`}
+        on:click={() => handleChange(allPages)}>{allPages}</Chip
+      >
+    {/if}
     <div
       class={`${current < allPages && 'cursor-pointer'} ${
         current >= allPages && 'opacity-0'
