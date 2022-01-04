@@ -4,7 +4,6 @@ Practice project that overengineer at every part
 
 TODO list:
 # Frontend
-- Implement history for specific uuid
 - Expire input
 
 # Backend
