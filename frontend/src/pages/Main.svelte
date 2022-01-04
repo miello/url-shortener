@@ -1,7 +1,7 @@
 <script lang="ts">
   import Container from '../components/common/Container.svelte'
   import { apiClient } from '../utils/apiClient'
-  import Modal from '../modules/ResultModal.svelte'
+  import ResultModal from '../modules/ResultModal.svelte'
   import Input from '../components/common/Input.svelte'
   import Button from '../components/common/Button.svelte'
   import type { EventInput } from '../types/Event'
@@ -55,7 +55,7 @@
     </Container>
   </form>
   {#if openModal}
-    <Modal
+    <ResultModal
       on:close={() => {
         openModal = false
       }}

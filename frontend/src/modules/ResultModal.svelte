@@ -4,12 +4,11 @@
   import Button from '../components/common/Button.svelte'
   import Modal from '../components/common/Modal.svelte'
   import Copy from '../components/icons/Copy.svelte'
-  import type { EventInput } from '../types/Event'
 
   const dispatch = createEventDispatcher()
   export let resultUrl = ''
   let isCopied = false
-  let prev: any = 0
+  let prev = 0
 
   const onClose = () => {
     dispatch('close')
@@ -19,9 +18,9 @@
     navigator.clipboard.writeText(resultUrl).then(() => {
       isCopied = true
       if (prev === -1) {
-        clearTimeout(prev)
+        window.clearTimeout(prev)
       }
-      prev = setTimeout(() => {
+      prev = window.setTimeout(() => {
         isCopied = false
         prev = -1
       }, 5000)
@@ -29,7 +28,7 @@
   }
 
   onDestroy(() => {
-    clearTimeout(prev)
+    window.clearTimeout(prev)
   })
 </script>
 
