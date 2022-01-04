@@ -185,10 +185,21 @@ func GetHistoryWithLimit(ctx *gin.Context) {
 
 	db_query := db.Model(&dto.URLShortener{}).Where(dto.URLShortener{UserID: uid})
 
-	err := db_query.Count(&cnt).Where(dto.URLShortener{UserID: uid}).Offset((pages - 1) * limit).Limit(limit).Order("created_at desc").Find(&url_list).Error
+	tx := db_query.Count(&cnt)
+	all_pages := uint(math.Ceil(float64(cnt) / float64(limit)))
 
-	if err != nil {
-		println(err.Error())
+	if all_pages <= 1 {
+		pages = 1
+		all_pages = 1
+	}
+
+	if all_pages != 1 && pages >= int(all_pages) {
+		pages = int(all_pages)
+	}
+
+	err := tx.Where(dto.URLShortener{UserID: uid}).Offset((pages - 1) * limit).Limit(limit).Order("created_at desc").Find(&url_list).Error
+
+	if err != nil || tx.Error != nil {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"error": "Something wrong with query",
 		})
@@ -204,8 +215,6 @@ func GetHistoryWithLimit(ctx *gin.Context) {
 			Expires:   element.Expires,
 		})
 	}
-
-	all_pages := uint(math.Ceil(float64(cnt) / float64(limit)))
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"data":      res,
