@@ -5,18 +5,18 @@
   import { Logout, UserStores } from '../stores/UserStores'
   import { scale } from 'svelte/transition'
   import { useNavigate } from 'svelte-navigator'
-  import { createEventDispatcher, onMount } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
 
   export let className = ''
 
   let dispatchEvent = createEventDispatcher()
   const navigate = useNavigate()
   const ICON_LIST = [
-    {
-      Icon: PersonIcon,
-      text: 'Profile',
-      navigateTo: '/user/profile',
-    },
+    // {
+    //   Icon: PersonIcon,
+    //   text: 'Profile',
+    //   navigateTo: '/user/profile',
+    // },
     {
       Icon: HistoryIcon,
       text: 'History',

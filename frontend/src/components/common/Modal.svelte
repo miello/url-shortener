@@ -1,14 +1,26 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { fly, scale } from 'svelte/transition'
   import Container from './Container.svelte'
   import CloseIcon from '../icons/CloseIcon.svelte'
 
   let eventDispatch = createEventDispatcher()
 
+  const handleCloseKeyboard = (ev: KeyboardEvent) => {
+    if (ev.code === 'Escape') onClose()
+  }
+
   const onClose = () => {
     eventDispatch('close')
   }
+
+  onMount(() => {
+    document.addEventListener('keydown', handleCloseKeyboard, true)
+  })
+
+  onDestroy(() => {
+    document.removeEventListener('keydown', handleCloseKeyboard, true)
+  })
 </script>
 
 <div

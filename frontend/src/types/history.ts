@@ -1,4 +1,4 @@
-interface IShortenHistory {
+export interface IShortenHistory {
   original: string
   shorten_id: string
   created_at: string

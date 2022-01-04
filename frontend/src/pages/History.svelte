@@ -8,6 +8,7 @@
   import Loading from '../components/common/Loading.svelte'
   import UserGuard from '../components/hoc/UserGuard.svelte'
   import ConfirmModal from '../modules/ConfirmModal.svelte'
+  import EditModal from '../modules/EditModal.svelte'
   import Pagination from '../modules/Pagination.svelte'
   import { UpdateAlert } from '../stores/AlertStores'
   import type { IHistoryRequest } from '../types/history'
@@ -17,14 +18,18 @@
     'Date Created',
     'Shorten ID',
     'Original',
-    'Expires',
+    // 'Expires',
     'Action',
   ]
   let promise: Promise<AxiosResponse<IHistoryRequest>> = null
-  let currentId = ''
   let openModal = false
+
   let current = 1
   let allPages = 1
+
+  let currentId = ''
+  let originalUrl = ''
+  let editModal = false
 
   const updateHistory = (newVal: number = current) => {
     promise = apiClient
@@ -110,14 +115,19 @@
                     class="border-2 border-solid border-black px-2 overflow-auto max-w-[150px]"
                     >{original}</td
                   >
-                  <td class="border-2 border-solid border-black px-2"
+                  <!-- <td class="border-2 border-solid border-black px-2"
                     >{expires
                       ? new Date(expires).toLocaleString('en-GB')
                       : '-'}</td
-                  >
+                  > -->
                   <td class="border-2 border-solid border-black px-2 py-2">
-                    <Button className="bg-[#BDFF00] py-1 font-semibold"
-                      >Edit</Button
+                    <Button
+                      className="bg-[#BDFF00] py-1 font-semibold"
+                      on:click={() => {
+                        currentId = shorten_id
+                        originalUrl = original
+                        editModal = true
+                      }}>Edit</Button
                     >
                     <Button
                       className="bg-red-500 py-1 font-semibold"
@@ -141,6 +151,17 @@
       on:close={handleClose}
       on:submit={handleDelete}
       message="Are you sure that you want to delete?"
+    />
+  {/if}
+  {#if editModal}
+    <EditModal
+      shortId={currentId}
+      original={originalUrl}
+      on:close={() => (editModal = false)}
+      on:submit={() => {
+        updateHistory()
+        editModal = false
+      }}
     />
   {/if}
 </UserGuard>
