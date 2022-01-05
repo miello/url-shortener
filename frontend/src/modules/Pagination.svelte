@@ -53,7 +53,7 @@
 </script>
 
 <div class="flex items-center justify-center mt-5">
-  <div class="flex items-center mr-2">
+  <div class="items-center mr-2 md:flex hidden">
     <div
       class={`${current > 1 && 'cursor-pointer'} ${
         current <= 1 && 'opacity-0'
@@ -69,9 +69,9 @@
       on:click={() => handleChange(1)}>1</Chip
     >
     {#if (current >= 4 && allPages >= 6) || (current >= allPages - 1 && allPages >= 5)}
-      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
-      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
-      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
+      <Chip className="bg-[#C4C4C4] mr-2 !w-3 !h-3" />
+      <Chip className="bg-[#C4C4C4] mr-2 !w-3 !h-3" />
+      <Chip className="bg-[#C4C4C4] mr-2 !w-3 !h-3" />
     {/if}
     {#each innerChip as val}
       <Chip
@@ -82,9 +82,9 @@
       >
     {/each}
     {#if (current <= allPages - 3 && allPages >= 6) || (current <= 2 && allPages >= 5)}
-      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
-      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
-      <Chip className="bg-[#C4C4C4] mr-2 w-3 h-3" />
+      <Chip className="bg-[#C4C4C4] mr-2 !w-3 !h-3" />
+      <Chip className="bg-[#C4C4C4] mr-2 !w-3 !h-3" />
+      <Chip className="bg-[#C4C4C4] mr-2 !w-3 !h-3" />
     {/if}
     {#if allPages > 1}
       <Chip

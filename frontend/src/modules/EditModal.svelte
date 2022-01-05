@@ -39,20 +39,20 @@
 <Modal on:close={onClose}>
   <h3 class="font-display text-2xl font-bold">Edit</h3>
   <section id="containerEdit">
-    <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md"
-      >Shorten ID:
+    <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md text-sm"
+      >Short ID:
     </span>
-    <span class="font-display lg:text-xl font-semibold sm:text-md"
+    <span class="font-display font-semibold lg:text-xl sm:text-md text-sm"
       >{shortId}</span
     >
-    <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md"
+    <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md text-sm"
       >Original:
     </span>
     <Input
       bind:value={original}
       required={true}
       label="Your URL"
-      className="font-display"
+      className="font-display lg:text-xl sm:text-md text-sm"
     />
   </section>
   <div class="flex justify-evenly w-full">
@@ -65,9 +65,9 @@
 <style>
   #containerEdit {
     display: grid;
-    grid-template-columns: max-content auto;
+    grid-template-columns: auto auto;
     row-gap: 0.75rem;
-    column-gap: 0.75rem;
+    column-gap: 0.5rem;
     align-items: center;
   }
 </style>

@@ -82,12 +82,14 @@
 </script>
 
 <UserGuard>
-  <div class="w-full h-full flex items-center overflow-auto">
+  <div class="w-full h-full flex items-center overflow-auto py-3">
     <div class="w-full px-3">
       <div class="flex justify-center">
         <h4 class="font-bold font-display text-2xl mb-4">History</h4>
       </div>
-      <Container className="max-w-[800px] overflow-auto mx-auto h-[430px]">
+      <Container
+        className="max-w-[800px] overflow-auto mx-auto md:max-h-full max-h-[300px]"
+      >
         <table class="m-0 p-0 border-4 border-solid border-black w-full">
           {#if promise !== null}
             {#await promise}
@@ -104,15 +106,17 @@
               </tr>
               {#each value.data.data as { original, shorten_id, created_at, expires }}
                 <tr>
-                  <td class="border-2 border-solid border-black px-2"
+                  <td
+                    class="border-2 border-solid border-black px-2 text-center"
                     >{new Date(created_at).toLocaleString('en-GB')}</td
                   >
-                  <td class="border-2 border-solid border-black px-2"
+                  <td
+                    class="border-2 border-solid border-black px-2 text-center"
                     >{shorten_id}</td
                   >
                   <td
                     id="original-url"
-                    class="border-2 border-solid border-black px-2 overflow-auto max-w-[150px]"
+                    class="border-2 border-solid border-black px-2 overflow-auto max-w-[150px] text-center"
                     >{original}</td
                   >
                   <!-- <td class="border-2 border-solid border-black px-2"
@@ -120,22 +124,26 @@
                       ? new Date(expires).toLocaleString('en-GB')
                       : '-'}</td
                   > -->
-                  <td class="border-2 border-solid border-black px-2 py-2">
-                    <Button
-                      className="bg-[#BDFF00] py-1 font-semibold"
-                      on:click={() => {
-                        currentId = shorten_id
-                        originalUrl = original
-                        editModal = true
-                      }}>Edit</Button
-                    >
-                    <Button
-                      className="bg-red-500 py-1 font-semibold"
-                      on:click={() => {
-                        currentId = shorten_id
-                        openModal = true
-                      }}>Delete</Button
-                    >
+                  <td
+                    class="border-2 py-2 border-solid border-black px-2 m-auto"
+                  >
+                    <div class="flex justify-evenly">
+                      <Button
+                        className="bg-[#BDFF00] py-1 font-semibold"
+                        on:click={() => {
+                          currentId = shorten_id
+                          originalUrl = original
+                          editModal = true
+                        }}>Edit</Button
+                      >
+                      <Button
+                        className="bg-red-500 py-1 font-semibold"
+                        on:click={() => {
+                          currentId = shorten_id
+                          openModal = true
+                        }}>Delete</Button
+                      >
+                    </div>
                   </td>
                 </tr>
               {/each}

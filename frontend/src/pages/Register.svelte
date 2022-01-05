@@ -52,18 +52,23 @@
 <div class="flex justify-center items-center w-full">
   <Container className="h-fit w-full max-w-[500px] mx-5">
     <form on:submit={onSubmit} class="flex flex-col ">
-      <h3 class="font-display text-3xl text-center mb-5 font-bold">Register</h3>
+      <h3 class="font-display text-xl md:text-3xl text-center mb-5 font-bold">
+        Register
+      </h3>
       <div id="container" class="mb-5">
-        <span class="font-display"
-          >Handle Name<span class="text-red-500">*</span></span
+        <span class="font-display md:text-base text-sm"
+          >Handle Name<span class="text-red-500 md:text-base text-sm">*</span
+          ></span
         >
         <Input label="handle name" bind:value={handleName} required={true} />
-        <span class="font-display"
-          >Username<span class="text-red-500">*</span></span
+        <span class="font-display md:text-base text-sm"
+          >Username<span class="text-red-500 md:text-base text-sm">*</span
+          ></span
         >
         <Input label="username" bind:value={username} required={true} />
-        <span class="font-display"
-          >Password<span class="text-red-500">*</span></span
+        <span class="font-display md:text-base text-sm"
+          >Password<span class="text-red-500 md:text-base text-sm">*</span
+          ></span
         >
         <Input
           type="password"
@@ -71,8 +76,10 @@
           bind:value={password}
           required={true}
         />
-        <span class="font-display"
-          >Confirm Password<span class="text-red-500">*</span></span
+        <span class="font-display md:text-base text-sm"
+          >Confirm Password<span class="text-red-500 md:text-base text-sm"
+            >*</span
+          ></span
         >
         <Input
           type="password"
@@ -102,9 +109,10 @@
 <style>
   #container {
     display: grid;
-    grid-template-columns: max-content auto;
+    grid-template-columns: auto auto;
     row-gap: 0.75rem;
     column-gap: 0.75rem;
     align-items: center;
+    min-height: 0;
   }
 </style>
