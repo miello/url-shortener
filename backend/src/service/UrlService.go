@@ -7,7 +7,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/miello/url-shortener/backend/src/dto"
@@ -58,7 +57,7 @@ func CreateNewURL(ctx *gin.Context) {
 
 	create_err := db.Create(&dto.URLShortener{
 		Original: body.Url,
-		Expires:  time.Now().Add(time.Hour * 24),
+		Expires:  body.Expires,
 		UrlID:    id,
 		UserID:   uid,
 	}).Error
@@ -119,6 +118,7 @@ func EditOriginalUrl(ctx *gin.Context) {
 	db := utils.GetDB()
 
 	model_url.Original = body.Url
+	model_url.Expires = body.Expires
 	db.Save(&model_url)
 
 	ctx.JSON(http.StatusAccepted, gin.H{
@@ -208,12 +208,16 @@ func GetHistoryWithLimit(ctx *gin.Context) {
 
 	res := make([]types.UserHistoryResponse, 0)
 	for _, element := range url_list {
-		res = append(res, types.UserHistoryResponse{
-			Original:  element.Original,
-			ShortenId: element.UrlID,
-			CreatedAt: element.CreatedAt,
-			Expires:   element.Expires,
-		})
+		expires, err := utils.CalculateExpiresTime(element.CreatedAt, element.Expires)
+		if err == nil {
+			res = append(res, types.UserHistoryResponse{
+				Original:   element.Original,
+				ShortenId:  element.UrlID,
+				CreatedAt:  element.CreatedAt,
+				Expires:    expires,
+				RawExpires: element.Expires,
+			})
+		}
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{

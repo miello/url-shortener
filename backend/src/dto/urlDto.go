@@ -1,8 +1,6 @@
 package dto
 
 import (
-	"time"
-
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -13,5 +11,5 @@ type URLShortener struct {
 	UrlID    string
 	UserID   uuid.UUID `gorm:"default:null"`
 	User     User
-	Expires  time.Time
+	Expires  string
 }

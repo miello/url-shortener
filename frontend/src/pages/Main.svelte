@@ -7,17 +7,23 @@
   import type { EventInput } from '../types/Event'
   import { UpdateAlert } from '../stores/AlertStores'
   import type { AxiosError } from 'axios'
+  import { EXPIRES_TIME } from '../constant/time'
+  import type { ExpiresTimeType } from '../types/time'
 
   let url = ''
   let openModal = false
   let result = ''
   let isLoad = false
+  let expires: ExpiresTimeType = 'None'
 
   const handleSubmit = async (e: EventInput) => {
     e.preventDefault()
     isLoad = true
     try {
-      const res = await apiClient.post<{ url: string }>('/short', { url })
+      const res = await apiClient.post<{ url: string }>('/short', {
+        url,
+        expires,
+      })
       result = res.data.url
       openModal = true
     } catch (err) {
@@ -37,11 +43,22 @@
   </h1>
   <form on:submit={handleSubmit} class="w-full flex justify-center">
     <Container className="mb-4 max-w-[500px] w-full">
-      <div class="flex mb-4 items-center">
-        <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md"
+      <div id="createContainer" class="flex mb-4 items-center ">
+        <span class="mr-1 font-display lg:text-xl font-semibold sm:text-md"
           >URL:
         </span>
         <Input bind:value={url} required={true} label="Your URL" />
+        <span class="mr-1 font-display lg:text-xl font-semibold sm:text-md"
+          >Expires:
+        </span>
+        <select
+          class="pl-1 pr-3 max-w-[200px] rounded-lg box-border px-2 py-1 hover:border-black border-2"
+          bind:value={expires}
+        >
+          {#each EXPIRES_TIME as expire}
+            <option value={expire}>{expire}</option>
+          {/each}
+        </select>
       </div>
       <div class="flex justify-center">
         <Button
@@ -63,3 +80,11 @@
     />
   {/if}
 </div>
+
+<style>
+  #createContainer {
+    display: grid;
+    grid-template-columns: max-content auto;
+    row-gap: 0.5rem;
+  }
+</style>

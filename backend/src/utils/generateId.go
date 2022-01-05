@@ -33,5 +33,11 @@ func GenerateNewId(length int, url string) string {
 func GetUrlFromId(id string) (string, bool) {
 	var fetchUrl dto.URLShortener
 	db.Where(&dto.URLShortener{UrlID: id}).First(&fetchUrl)
-	return fetchUrl.Original, fetchUrl.Original != ""
+	if fetchUrl.Expires == "None" {
+		return fetchUrl.Original, fetchUrl.Original != ""
+	}
+	expiresDate, err := CalculateExpiresTime(fetchUrl.CreatedAt, fetchUrl.Expires)
+	isValid := IsShortenValid(expiresDate)
+
+	return fetchUrl.Original, !isValid || err != nil
 }

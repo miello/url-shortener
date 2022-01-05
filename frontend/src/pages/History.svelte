@@ -12,13 +12,14 @@
   import Pagination from '../modules/Pagination.svelte'
   import { UpdateAlert } from '../stores/AlertStores'
   import type { IHistoryRequest } from '../types/history'
+  import type { ExpiresTimeType } from '../types/time'
   import { apiClient } from '../utils/apiClient'
 
   const TABLE_HEADER = [
     'Date Created',
+    'Expires',
     'Shorten ID',
     'Original',
-    // 'Expires',
     'Action',
   ]
   let promise: Promise<AxiosResponse<IHistoryRequest>> = null
@@ -29,6 +30,7 @@
 
   let currentId = ''
   let originalUrl = ''
+  let rawExpires: ExpiresTimeType = 'None'
   let editModal = false
 
   const updateHistory = (newVal: number = current) => {
@@ -88,7 +90,7 @@
         <h4 class="font-bold font-display text-2xl mb-4">History</h4>
       </div>
       <Container
-        className="max-w-[800px] overflow-auto mx-auto md:max-h-full max-h-[300px]"
+        className="max-w-[900px] overflow-auto mx-auto md:max-h-full max-h-[300px]"
       >
         <table class="m-0 p-0 border-4 border-solid border-black w-full">
           {#if promise !== null}
@@ -104,11 +106,17 @@
                   >
                 {/each}
               </tr>
-              {#each value.data.data as { original, shorten_id, created_at, expires }}
+              {#each value.data.data as { original, shorten_id, created_at, expires, raw_expires }}
                 <tr>
                   <td
-                    class="border-2 border-solid border-black px-2 text-center"
+                    class="border-2 border-solid border-black px-2 text-center font-medium"
                     >{new Date(created_at).toLocaleString('en-GB')}</td
+                  >
+                  <td
+                    class="border-2 border-solid border-black px-2 text-center font-medium"
+                    >{expires && raw_expires !== 'None'
+                      ? new Date(expires).toLocaleString('en-GB')
+                      : '-'}</td
                   >
                   <td
                     class="border-2 border-solid border-black px-2 text-center"
@@ -119,25 +127,22 @@
                     class="border-2 border-solid border-black px-2 overflow-auto max-w-[150px] text-center"
                     >{original}</td
                   >
-                  <!-- <td class="border-2 border-solid border-black px-2"
-                    >{expires
-                      ? new Date(expires).toLocaleString('en-GB')
-                      : '-'}</td
-                  > -->
                   <td
                     class="border-2 py-2 border-solid border-black px-2 m-auto"
                   >
-                    <div class="flex justify-evenly">
+                    <div class="flex  justify-evenly">
                       <Button
                         className="bg-[#BDFF00] py-1 font-semibold"
                         on:click={() => {
                           currentId = shorten_id
                           originalUrl = original
+                          console.log(raw_expires)
+                          rawExpires = raw_expires
                           editModal = true
                         }}>Edit</Button
                       >
                       <Button
-                        className="bg-red-500 py-1 font-semibold"
+                        className="bg-red-500 py-1 font-semibold ml-1"
                         on:click={() => {
                           currentId = shorten_id
                           openModal = true
@@ -165,6 +170,7 @@
     <EditModal
       shortId={currentId}
       original={originalUrl}
+      expires={rawExpires}
       on:close={() => (editModal = false)}
       on:submit={() => {
         updateHistory()

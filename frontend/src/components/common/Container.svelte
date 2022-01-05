@@ -4,7 +4,7 @@
 </script>
 
 <section
-  class={`p-4 backdrop-blur-md drop-shadow-md bg-white ${
+  class={`p-4 backdrop-blur-md drop-shadow-md bg-white box-border ${
     rounded && 'rounded-xl'
   } bg-opacity-50 ${className}`}
   on:click
