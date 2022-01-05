@@ -209,7 +209,15 @@ func GetHistoryWithLimit(ctx *gin.Context) {
 	res := make([]types.UserHistoryResponse, 0)
 	for _, element := range url_list {
 		expires, err := utils.CalculateExpiresTime(element.CreatedAt, element.Expires)
-		if err == nil {
+		if element.Expires == "None" {
+			res = append(res, types.UserHistoryResponse{
+				Original:   element.Original,
+				ShortenId:  element.UrlID,
+				CreatedAt:  element.CreatedAt,
+				Expires:    element.CreatedAt,
+				RawExpires: element.Expires,
+			})
+		} else if err == nil {
 			res = append(res, types.UserHistoryResponse{
 				Original:   element.Original,
 				ShortenId:  element.UrlID,

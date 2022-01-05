@@ -37,28 +37,32 @@
   }
 </script>
 
-<div class="w-full h-full flex flex-col justify-center items-center mx-5">
+<div class="w-full h-full flex flex-col justify-center items-center px-5">
   <h1 class="mb-10 lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-medium">
     URL Shortener
   </h1>
-  <form on:submit={handleSubmit} class="w-full flex justify-center">
-    <Container className="mb-4 max-w-[500px] w-full">
-      <div id="createContainer" class="flex mb-4 items-center ">
-        <span class="mr-1 font-display lg:text-xl font-semibold sm:text-md"
-          >URL:
-        </span>
-        <Input bind:value={url} required={true} label="Your URL" />
-        <span class="mr-1 font-display lg:text-xl font-semibold sm:text-md"
-          >Expires:
-        </span>
-        <select
-          class="pl-1 pr-3 max-w-[200px] rounded-lg box-border px-2 py-1 hover:border-black border-2"
-          bind:value={expires}
-        >
-          {#each EXPIRES_TIME as expire}
-            <option value={expire}>{expire}</option>
-          {/each}
-        </select>
+  <Container className="flex justify-center max-w-[500px] w-full">
+    <form on:submit={handleSubmit} class="w-full ">
+      <div class="flex mb-4 flex-col">
+        <div class="flex w-full items-center mb-3">
+          <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md"
+            >URL:
+          </span>
+          <Input bind:value={url} required={true} label="Your URL" />
+        </div>
+        <div class="flex items-center">
+          <span class="mr-2 font-display lg:text-xl font-semibold sm:text-md"
+            >Expires:
+          </span>
+          <select
+            class="pl-1 pr-3 max-w-[200px] rounded-lg box-border px-2 py-1 hover:border-black border-2"
+            bind:value={expires}
+          >
+            {#each EXPIRES_TIME as expire}
+              <option value={expire}>{expire}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <div class="flex justify-center">
         <Button
@@ -69,8 +73,8 @@
           Shorten
         </Button>
       </div>
-    </Container>
-  </form>
+    </form>
+  </Container>
   {#if openModal}
     <ResultModal
       on:close={() => {
