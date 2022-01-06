@@ -1,0 +1,36 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: urlshortener
+
+    volumes:
+      - ./db:/var/lib/postgresql/data
+
+  frontend:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: backend/
+      dockerfile: Dockerfile
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - db

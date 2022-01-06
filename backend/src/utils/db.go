@@ -29,7 +29,12 @@ func ConnectDB() {
 		DB_NAME = "urlshortner"
 	}
 
-	DB_CONFIG := fmt.Sprintf("user=%v password=%v dbname=%v port=5432 sslmode=disable TimeZone=Asia/Bangkok", DB_USER, DB_PASS, DB_NAME)
+	DB_HOST := os.Getenv("DATABASE_HOST")
+	if DB_HOST == "" {
+		DB_HOST = "localhost"
+	}
+
+	DB_CONFIG := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=5432 sslmode=disable TimeZone=Asia/Bangkok", DB_HOST, DB_USER, DB_PASS, DB_NAME)
 
 	for {
 		db, err = gorm.Open(postgres.New(postgres.Config{
