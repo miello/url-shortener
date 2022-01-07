@@ -32,7 +32,7 @@ func main() {
 	config.AllowCredentials = true
 
 	FRONTEND_URL := os.Getenv("FRONTEND_URL")
-	config.AllowOrigins = []string{"http://localhost:5000", FRONTEND_URL}
+	config.AllowOrigins = []string{FRONTEND_URL}
 
 	serve.Use(cors.New(config))
 	serve.Use(gin.Logger())

@@ -57,7 +57,7 @@ func Login(ctx *gin.Context) {
 
 	if isCorrect {
 		token := GenerateToken(user_match.ID.String())
-		ctx.SetCookie("access_token", token, 1*60*60*1000, "/", "localhost", false, true)
+		ctx.SetCookie("access_token", token, 1*60*60*1000, "/", "", false, true)
 		ctx.JSON(http.StatusAccepted, gin.H{
 			"status": "success",
 		})
@@ -115,7 +115,7 @@ func Register(ctx *gin.Context) {
 }
 
 func Logout(ctx *gin.Context) {
-	ctx.SetCookie("access_token", "", -1, "/", "localhost", false, true)
+	ctx.SetCookie("access_token", "", -1, "/", "", false, true)
 	ctx.JSON(http.StatusOK, gin.H{
 		"msg": "Logout Successfully",
 	})

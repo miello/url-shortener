@@ -39,5 +39,5 @@ func GetUrlFromId(id string) (string, bool) {
 	expiresDate, err := CalculateExpiresTime(fetchUrl.CreatedAt, fetchUrl.Expires)
 	isValid := IsShortenValid(expiresDate)
 
-	return fetchUrl.Original, !isValid || err != nil
+	return fetchUrl.Original, isValid && err == nil
 }
