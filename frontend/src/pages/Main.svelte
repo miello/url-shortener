@@ -84,11 +84,3 @@
     />
   {/if}
 </div>
-
-<style>
-  #createContainer {
-    display: grid;
-    grid-template-columns: max-content auto;
-    row-gap: 0.5rem;
-  }
-</style>

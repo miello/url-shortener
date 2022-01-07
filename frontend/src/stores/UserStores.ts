@@ -16,7 +16,6 @@ export const UserStores = writable<IUserStores>({
 })
 
 export const GetUser = async () => {
-  console.log(apiClient.defaults.baseURL)
   try {
     const res = await apiClient.get<IRequestUser>('/auth/user')
     UserStores.set({

@@ -14,5 +14,8 @@ COPY templates/ templates/
 
 RUN go build -o /server
 
+ENV GIN_MODE release
+ENV NODE_ENV production
+
 EXPOSE 8080
 CMD ["/server"]

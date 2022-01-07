@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -29,7 +30,9 @@ func main() {
 
 	config := cors.DefaultConfig()
 	config.AllowCredentials = true
-	config.AllowOrigins = []string{"http://localhost:5000"}
+
+	FRONTEND_URL := os.Getenv("FRONTEND_URL")
+	config.AllowOrigins = []string{"http://localhost:5000", FRONTEND_URL}
 
 	serve.Use(cors.New(config))
 	serve.Use(gin.Logger())
