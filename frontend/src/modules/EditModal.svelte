@@ -34,7 +34,7 @@
       const axiosErr = err as AxiosError<{ error: string }>
       UpdateAlert({
         status: 'error',
-        message: axiosErr.response.data?.error && axiosErr.message,
+        message: axiosErr,
       })
     }
   }

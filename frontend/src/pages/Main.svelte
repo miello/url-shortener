@@ -27,10 +27,10 @@
       result = res.data.url
       openModal = true
     } catch (err) {
-      const axiosErr = err as AxiosError
+      const axiosErr = err as AxiosError<{ error: string }>
       UpdateAlert({
         status: 'error',
-        message: axiosErr.response.data?.error && axiosErr.message,
+        message: axiosErr,
       })
     }
     isLoad = false

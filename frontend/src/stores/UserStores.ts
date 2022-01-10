@@ -33,7 +33,7 @@ export const GetUser = async () => {
     await Logout()
     UpdateAlert({
       status: 'error',
-      message: axiosErr.response?.data?.error || axiosErr.message,
+      message: axiosErr,
     })
   }
 }

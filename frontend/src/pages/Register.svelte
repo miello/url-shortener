@@ -42,7 +42,7 @@
       const axiosErr = err as AxiosError
       UpdateAlert({
         status: 'error',
-        message: axiosErr.response?.data?.error || axiosErr.message,
+        message: axiosErr,
       })
     }
     loading = false

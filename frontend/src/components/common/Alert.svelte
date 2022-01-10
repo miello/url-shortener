@@ -7,7 +7,7 @@
 
 <div
   class={`absolute left-1/2 ${
-    $OpenError ? 'top-10' : '-top-32'
+    $OpenError ? 'top-10' : 'top-0 -translate-y-full'
   } -translate-x-1/2 transition-all duration-300 ease-linear z-50 w-fit`}
 >
   <div
