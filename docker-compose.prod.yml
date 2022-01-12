@@ -7,13 +7,29 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     
     depends_on:
       - frontend
       - backend
 
     volumes:
+      - /etc/letsencrypt:/cert
+      - ./certbot-var:/var/lib/letsencrypt
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certs:/etc/ssl/certs
+      - ./certbot/www:/var/www/certbot/:ro
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - /etc/letsencrypt:/cert
+      - ./certbot-var:/var/lib/letsencrypt
+      - ./certbot/www/:/var/www/certbot/:rw
+    depends_on:
+      - nginx
+    command: certonly --webroot -w /var/www/certbot --email ${EMAIL_REGISTER} --agree-tos --no-eff-email --staging -d ${URL_1} -d ${URL_2}
 
   db:
     image: postgres
@@ -25,7 +41,6 @@ services:
 
     volumes:
       - ./backend/db:/var/lib/postgresqgl/data
-
 
   frontend:
     build:
