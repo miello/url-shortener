@@ -13,7 +13,7 @@
 <div
   transition:scale
   {style}
-  class={`absolute left-1/2 -translate-x-1/2 transition-all duration-300 ease-linear z-50 w-fit`}
+  class={`absolute left-1/2 translate-y-full -translate-x-1/2 transition-all duration-300 ease-linear z-50 w-fit`}
 >
   <div
     class={`red-500 px-4 py-2 mx-4 flex items-center text-white rounded-xl ${

@@ -14,6 +14,6 @@
     handleClose={() => CancelAlert(+key)}
     status={$AlertStores[key].status}
     message={$AlertStores[key].message}
-    style={`top: ${2.5 + 3 * idx}rem`}
+    style={`top: ${3 * idx}rem`}
   />
 {/each}
