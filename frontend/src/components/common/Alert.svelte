@@ -1,29 +1,34 @@
 <script lang="ts">
   import CloseIcon from '../icons/CloseIcon.svelte'
-  import { AlertStores, OpenError, CancelAlert } from '../../stores/AlertStores'
   import CorrectIcon from '../icons/CorrectIcon.svelte'
   import ErrorIcon from '../icons/ErrorIcon.svelte'
+  import { scale } from 'svelte/transition'
+
+  export let style: string = ''
+  export let status: 'error' | 'success' = 'error'
+  export let message = ''
+  export let handleClose: () => void = () => {}
 </script>
 
 <div
-  class={`absolute left-1/2 ${
-    $OpenError ? 'top-10' : 'top-0 -translate-y-full'
-  } -translate-x-1/2 transition-all duration-300 ease-linear z-50 w-fit`}
+  transition:scale
+  {style}
+  class={`absolute left-1/2 -translate-x-1/2 transition-all duration-300 ease-linear z-50 w-fit`}
 >
   <div
     class={`red-500 px-4 py-2 mx-4 flex items-center text-white rounded-xl ${
-      $AlertStores.status === 'error' ? 'bg-red-600' : 'bg-green-600'
+      status === 'error' ? 'bg-red-600' : 'bg-green-600'
     }`}
   >
-    {#if $AlertStores.status === 'error'}
+    {#if status === 'error'}
       <ErrorIcon />
-    {:else if $AlertStores.status === 'success'}
+    {:else if status === 'success'}
       <CorrectIcon />
     {/if}
     <p class="font-display pr-1 pl-2 text-sm lg:text-base">
-      {$AlertStores.message}
+      {message}
     </p>
-    <div on:click={CancelAlert} class="cursor-pointer">
+    <div on:click={handleClose} class="cursor-pointer">
       <CloseIcon color="white" />
     </div>
   </div>

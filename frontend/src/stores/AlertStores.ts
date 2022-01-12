@@ -11,38 +11,54 @@ export interface IAlertStores {
   message: string
 }
 
-export const AlertStores = writable<IAlertStores>({
-  status: 'success',
-  message: '',
-})
+export const AlertStores = writable<Record<string, IAlertStores>>({})
 
-export const OpenError = writable<boolean>(false)
-
-let cnt = -1
+let key = 1
+let timeOut: Record<string, number> = {}
 
 export const UpdateAlert = (newVal: IUpdateStores, delay = 7000) => {
-  if (cnt !== -1) return
-
   let msgErr = newVal.message
   if (typeof msgErr !== 'string') {
     msgErr = msgErr.response?.data.error || msgErr.message
   }
 
-  AlertStores.set({
-    status: newVal.status,
-    message: msgErr,
-  })
-  OpenError.set(true)
-  cnt = window.setTimeout(() => {
-    OpenError.set(false)
-    cnt = -1
+  let tmp = key++
+  AlertStores.update((prev) => ({
+    ...prev,
+    [tmp]: {
+      status: newVal.status,
+      message: msgErr,
+    },
+  }))
+
+  timeOut[tmp] = window.setTimeout(() => {
+    CancelAlert(tmp)
   }, delay)
 }
 
-export const CancelAlert = () => {
-  if (cnt !== -1) {
-    window.clearTimeout(cnt)
-    OpenError.set(false)
-    cnt = -1
+export const CancelAlert = (key: number) => {
+  if (timeOut[key]) {
+    const keyStr = key.toString()
+    window.clearTimeout(timeOut[key])
+    AlertStores.update((data) => {
+      return Object.keys(data).reduce((prev, val) => {
+        if (keyStr !== val) {
+          return {
+            ...prev,
+            [val]: data[val],
+          }
+        }
+        return prev
+      }, {})
+    })
+    timeOut = Object.keys(timeOut).reduce((prev, cur) => {
+      if (keyStr !== cur) {
+        return {
+          ...prev,
+          [cur]: timeOut[cur],
+        }
+      }
+      return prev
+    }, {} as Record<number, number>)
   }
 }

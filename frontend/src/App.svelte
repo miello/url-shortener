@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Router, Route } from 'svelte-navigator'
   import routes from './utils/routes'
-  import Alert from './components/common/Alert.svelte'
   import Navbar from './modules/Navbar.svelte'
+  import AlertBox from './modules/AlertBox.svelte'
 </script>
 
 <main class="min-h-screen bg flex relative">
@@ -14,7 +14,7 @@
           <Components />
         </Route>
       {/each}
-      <Alert />
+      <AlertBox />
     </div>
   </Router>
 </main>
