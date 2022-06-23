@@ -1,16 +1,17 @@
-# url-shortener
+# url-shortener (UNMAINTAINED)
 
-Practice project that overengineer at every part
+Practice project that overengineer at every part (or maybe not)
 
-TODO list:
-# Frontend
+Tech Stack
+**Frontend**
+- Svelte
+- TailwindCSS
 
-# Backend
-- Rate Limit
-- Redis Caching
-- Refresh Token, Access Token
-- Cron Job for expire checking
+**Backend**
+- Go
+- Gin
 
-# Infrastructure
-- K8 (?)
-- Monitoring (Find later)
+**Infra**
+- Nginx
+- Docker
+- DigitalOcean Droplet
